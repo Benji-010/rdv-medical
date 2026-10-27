@@ -1,0 +1,11 @@
+# Identifiants locauw (ne jamais envoyer sur GitHub)
+config/database.php
+
+# Fichiers d'éditeurs
+.vscode/
+nbproject/private/
+
+# Système
+Thumbs.db
+.DS_Store
+*.log
