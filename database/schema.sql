@@ -24,6 +24,7 @@ CREATE TABLE
         CHECK (patient_sexe IN ('M', 'F'))
     ) ENGINE = InnoDB;
 
+-- Création de la table "Medecin"
 CREATE TABLE
     medecin (
         id_medecin VARCHAR(7) NOT NULL,
@@ -34,6 +35,7 @@ CREATE TABLE
         PRIMARY KEY (id_medecin)
     ) ENGINE = InnoDB;
 
+-- Création de la table "Salle"
 CREATE TABLE
     salle (
         id_salle VARCHAR(6) NOT NULL,
@@ -43,6 +45,7 @@ CREATE TABLE
         UNIQUE (salle_nom)
     ) ENGINE = InnoDB;
 
+-- Création de la table "Tranche Horaire"
 CREATE TABLE
     tranche_horaire (
         id_tranche INT NOT NULL AUTO_INCREMENT,
@@ -50,4 +53,123 @@ CREATE TABLE
         tranche_minutes INT NOT NULL,
         PRIMARY KEY (id_tranche),
         CHECK (tranche_minutes IN (30, 45, 60, 90, 120))
+    ) ENGINE = InnoDB;
+
+-- Création de la table "Disponibilite Medecin"
+CREATE TABLE
+    disponibilite_medecin (
+        id_disponibilite_medecin VARCHAR(7) NOT NULL,
+        disponibilite_medecin_jour VARCHAR(10) NOT NULL,
+        disponibilite_medecin_heure_debut TIME NOT NULL,
+        disponibilite_medecin_heure_fin TIME NOT NULL,
+        disponibilite_medecin_valide_du DATE NOT NULL,
+        disponibilite_medecin_valide_au DATE NOT NULL,
+        disponibilite_medecin_statut VARCHAR(20) NOT NULL,
+        id_medecin VARCHAR(7) NOT NULL,
+        PRIMARY KEY (id_disponibilite_medecin),
+        FOREIGN KEY (id_medecin) REFERENCES medecin (id_medecin),
+        CHECK (
+            disponibilite_medecin_heure_fin > disponibilite_medecin_heure_debut
+        ),
+        CHECK (
+            disponibilite_medecin_valide_au >= disponibilite_medecin_valide_du
+        )
+    ) ENGINE = InnoDB;
+
+-- Création de la table "Indisponibilite Medecin"
+CREATE TABLE
+    indisponibilite_medecin (
+        id_indisponibilite_medecin VARCHAR(8) NOT NULL,
+        indisponibilite_medecin_date_debut DATE NOT NULL,
+        indisponibilite_medecin_date_fin DATE NOT NULL,
+        indisponibilite_medecin_heure_debut TIME NOT NULL,
+        indisponibilite_medecin_heure_fin TIME NOT NULL,
+        indisponibilite_medecin_motif VARCHAR(100) NOT NULL,
+        indisponibilite_medecin_statut VARCHAR(20) NOT NULL,
+        id_medecin VARCHAR(7) NOT NULL,
+        PRIMARY KEY (id_indisponibilite_medecin),
+        FOREIGN KEY (id_medecin) REFERENCES medecin (id_medecin),
+        CHECK (
+            indisponibilite_medecin_date_fin >= indisponibilite_medecin_date_debut
+        )
+    ) ENGINE = InnoDB;
+
+-- Création de la table "Disponibilite Salle"
+CREATE TABLE
+    disponibilite_salle (
+        id_disponibilite_salle VARCHAR(7) NOT NULL,
+        disponibilite_salle_jour VARCHAR(10) NOT NULL,
+        disponibilite_salle_heure_debut TIME NOT NULL,
+        disponibilite_salle_heure_fin TIME NOT NULL,
+        disponibilite_salle_valide_du DATE NOT NULL,
+        disponibilite_salle_valide_au DATE NOT NULL,
+        disponibilite_salle_statut VARCHAR(20) NOT NULL,
+        id_salle VARCHAR(6) NOT NULL,
+        PRIMARY KEY (id_disponibilite_salle),
+        FOREIGN KEY (id_salle) REFERENCES salle (id_salle),
+        CHECK (
+            disponibilite_salle_heure_fin > disponibilite_salle_heure_debut
+        ),
+        CHECK (
+            disponibilite_salle_valide_au >= disponibilite_salle_valide_du
+        )
+    ) ENGINE = InnoDB;
+
+-- Création de la table "Indisponibilite Salle"
+CREATE TABLE
+    indisponibilite_salle (
+        id_indisponibilite_salle VARCHAR(8) NOT NULL,
+        indisponibilite_salle_date_debut DATE NOT NULL,
+        indisponibilite_salle_date_fin DATE NOT NULL,
+        indisponibilite_salle_heure_debut TIME NOT NULL,
+        indisponibilite_salle_heure_fin TIME NOT NULL,
+        indisponibilite_salle_motif VARCHAR(100) NOT NULL,
+        indisponibilite_salle_statut VARCHAR(20) NOT NULL,
+        id_salle VARCHAR(6) NOT NULL,
+        PRIMARY KEY (id_indisponibilite_salle),
+        FOREIGN KEY (id_salle) REFERENCES salle (id_salle),
+        CHECK (
+            indisponibilite_salle_date_fin >= indisponibilite_salle_date_debut
+        )
+    ) ENGINE = InnoDB;
+
+-- Création de la table "Rendez-vous"
+CREATE TABLE
+    rendez_vous (
+        id_rdv VARCHAR(8) NOT NULL,
+        rdv_date DATE NOT NULL,
+        rdv_heure_debut TIME NOT NULL,
+        rdv_heure_fin TIME NOT NULL,
+        rdv_statut VARCHAR(20) NOT NULL,
+        id_patient VARCHAR(7) NOT NULL,
+        id_medecin VARCHAR(7) NOT NULL,
+        id_salle VARCHAR(6) NOT NULL,
+        id_tranche INT NOT NULL,
+        PRIMARY KEY (id_rdv),
+        FOREIGN KEY (id_patient) REFERENCES patient (id_patient),
+        FOREIGN KEY (id_medecin) REFERENCES medecin (id_medecin),
+        FOREIGN KEY (id_salle) REFERENCES salle (id_salle),
+        FOREIGN KEY (id_tranche) REFERENCES tranche_horaire (id_tranche),
+        CHECK (rdv_heure_fin > rdv_heure_debut),
+        CHECK (
+            rdv_statut IN (
+                'En attente',
+                'Confirmé',
+                'Reporté',
+                'Annulé',
+                'Terminé'
+            )
+        ),
+        INDEX idx_rdv_medecin (
+            id_medecin,
+            rdv_date,
+            rdv_heure_debut,
+            rdv_heure_fin
+        ),
+        INDEX idx_rdv_salle (
+            id_salle,
+            rdv_date,
+            rdv_heure_debut,
+            rdv_heure_fin
+        )
     ) ENGINE = InnoDB;
