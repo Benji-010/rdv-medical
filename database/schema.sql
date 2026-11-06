@@ -173,3 +173,15 @@ CREATE TABLE
             rdv_heure_fin
         )
     ) ENGINE = InnoDB;
+
+-- Création de la table "Utilisateur"
+CREATE TABLE
+    utilisateur (
+        id_utilisateur INT NOT NULL AUTO_INCREMENT,
+        utilisateur_login VARCHAR(50) NOT NULL,
+        utilisateur_mot_de_passe VARCHAR(255) NOT NULL,
+        utilisateur_role VARCHAR(20) NOT NULL,
+        PRIMARY KEY (id_utilisateur),
+        UNIQUE (utilisateur_login),
+        CHECK (utilisateur_role IN ('admin', 'secretaire'))
+    ) ENGINE = InnoDB;
