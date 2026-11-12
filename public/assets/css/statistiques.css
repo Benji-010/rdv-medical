@@ -1,0 +1,463 @@
+
+/* En-tête */
+
+.entete-page-admin {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.surtitre-admin {
+    display: inline-block;
+    color: var(--bleu);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.entete-page-admin h1 {
+    color: var(--texte);
+    font-size: 29px;
+    margin-bottom: 10px;
+}
+
+.entete-page-admin p {
+    color: var(--texte-doux);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.periode-statistiques {
+    padding: 12px 15px;
+    border: 1px solid var(--bordure);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--texte);
+    font-family: var(--police);
+    font-size: 13px;
+}
+
+
+/* Indicateurs */
+
+.statistiques-indicateurs {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 35px;
+}
+
+.statistique-carte {
+    padding: 21px;
+    background: var(--surface);
+    border: 1px solid var(--bordure);
+    border-radius: var(--rayon);
+}
+
+.statistique-carte-haut {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 19px;
+}
+
+.statistique-icone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 9px;
+    font-size: 22px;
+}
+
+.statistique-icone.bleu {
+    background: var(--bleu-pale);
+    color: var(--bleu);
+}
+
+.statistique-icone.vert {
+    background: var(--vert-pale);
+    color: var(--vert);
+}
+
+.statistique-icone.orange {
+    background: var(--orange-pale);
+    color: var(--orange);
+}
+
+.statistique-icone.violet {
+    background: #f0eafd;
+    color: #7042bd;
+}
+
+.statistique-label {
+    color: var(--texte-doux);
+    font-size: 11px;
+}
+
+.statistique-carte h2 {
+    color: var(--texte);
+    font-size: 29px;
+    margin-bottom: 7px;
+}
+
+.statistique-carte > p {
+    color: var(--texte-doux);
+    font-size: 12px;
+    margin-bottom: 13px;
+}
+
+.statistique-evolution,
+.statistique-attention {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--vert);
+}
+
+.statistique-attention {
+    color: var(--orange);
+}
+
+
+/* Cartes graphiques */
+
+.section-graphiques {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 18px;
+    margin-bottom: 40px;
+}
+
+.graphique-carte {
+    padding: 24px;
+    background: var(--surface);
+    border: 1px solid var(--bordure);
+    border-radius: var(--rayon);
+    min-width: 0;
+}
+
+.graphique-entete {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.graphique-entete h2 {
+    color: var(--texte);
+    font-size: 16px;
+    margin-bottom: 7px;
+}
+
+.graphique-entete p {
+    color: var(--texte-doux);
+    font-size: 12px;
+}
+
+.legende-graphique {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--texte-doux);
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+.legende-graphique span {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--bleu);
+}
+
+
+/* Graphique en colonnes */
+
+.graphique-barres {
+    display: flex;
+    height: 245px;
+    gap: 12px;
+}
+
+.axe-graphique {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-bottom: 28px;
+    color: var(--texte-doux);
+    font-size: 10px;
+}
+
+.zone-barres {
+    position: relative;
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.ligne-guide {
+    height: 1px;
+    width: 100%;
+    background: var(--bordure);
+}
+
+.colonnes {
+    position: absolute;
+    inset: 0 0 0 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    gap: 8px;
+}
+
+.colonne-groupe {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    height: 100%;
+    gap: 9px;
+    flex: 1;
+    min-width: 0;
+}
+
+.colonne {
+    width: min(34px, 75%);
+    min-height: 5px;
+    border-radius: 5px 5px 0 0;
+    background: var(--bleu);
+    transition: opacity 0.2s;
+}
+
+.colonne:hover {
+    opacity: 0.75;
+}
+
+.colonne-groupe > span {
+    color: var(--texte-doux);
+    font-size: 10px;
+}
+
+
+/* Graphique circulaire */
+
+.repartition-visuel {
+    display: flex;
+    justify-content: center;
+    padding: 5px 0 25px;
+}
+
+.anneau-statistique {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    background: conic-gradient(
+        var(--vert) 0deg 246deg,
+        #e5a23c 246deg 316deg,
+        #d86a6a 316deg 360deg
+    );
+    position: relative;
+}
+
+.anneau-statistique::before {
+    content: "";
+    position: absolute;
+    width: 118px;
+    height: 118px;
+    border-radius: 50%;
+    background: var(--surface);
+}
+
+.anneau-statistique div {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.anneau-statistique strong {
+    color: var(--texte);
+    font-size: 25px;
+}
+
+.anneau-statistique span {
+    color: var(--texte-doux);
+    font-size: 11px;
+    margin-top: 3px;
+}
+
+.legende-repartition {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+}
+
+.legende-repartition > div {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: var(--texte-doux);
+    font-size: 12px;
+}
+
+.legende-repartition strong {
+    margin-left: auto;
+    color: var(--texte);
+}
+
+.pastille {
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+}
+
+.pastille-confirme { background: var(--vert); }
+.pastille-attente { background: #e5a23c; }
+.pastille-annule { background: #d86a6a; }
+
+
+/* Activité des médecins */
+
+.section-activite-medicale {
+    margin-bottom: 35px;
+}
+
+.titre-section-admin {
+    margin-bottom: 18px;
+}
+
+.titre-section-admin h2 {
+    color: var(--texte);
+    font-size: 21px;
+    margin-bottom: 7px;
+}
+
+.titre-section-admin p {
+    color: var(--texte-doux);
+    font-size: 13px;
+}
+
+.tableau-statistiques {
+    background: var(--surface);
+    border: 1px solid var(--bordure);
+    border-radius: var(--rayon);
+    overflow: hidden;
+}
+
+.tableau-statistiques table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tableau-statistiques th {
+    padding: 15px 18px;
+    background: #f0f4fa;
+    color: var(--texte-doux);
+    font-size: 12px;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.tableau-statistiques td {
+    padding: 16px 18px;
+    border-top: 1px solid var(--bordure);
+    color: var(--texte);
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.barre-activite {
+    width: 150px;
+    height: 8px;
+    border-radius: 10px;
+    background: #edf1f7;
+    overflow: hidden;
+}
+
+.barre-activite span {
+    display: block;
+    height: 100%;
+    border-radius: 10px;
+    background: var(--bleu);
+}
+
+
+/* Note */
+
+.note-administration {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px 18px;
+    background: var(--bleu-pale);
+    border: 1px solid #cbdcf7;
+    border-radius: var(--rayon);
+}
+
+.note-icone {
+    color: var(--bleu);
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.note-administration p {
+    color: var(--texte-doux);
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.note-administration strong {
+    color: var(--texte);
+}
+
+
+/* Responsive */
+
+@media (max-width: 1000px) {
+    .statistiques-indicateurs {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .section-graphiques {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .entete-page-admin {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .entete-page-admin h1 {
+        font-size: 25px;
+    }
+
+    .statistiques-indicateurs {
+        grid-template-columns: 1fr;
+    }
+
+    .graphique-carte {
+        padding: 18px;
+    }
+
+    .graphique-barres {
+        height: 210px;
+    }
+
+    .colonne-groupe > span {
+        font-size: 9px;
+    }
+}

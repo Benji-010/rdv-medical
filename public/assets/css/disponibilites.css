@@ -1,0 +1,186 @@
+
+/* ===== Introduction ===== */
+.intro-disponibilites {
+  background: var(--bleu-pale);
+  padding-block: 3rem;
+  text-align: center;
+}
+
+.intro-disponibilites .conteneur {
+  display: grid;
+  justify-items: center;
+}
+
+.surtitre {
+  margin-bottom: 0.7rem;
+  color: var(--bleu-fonce);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.intro-disponibilites h1 {
+  margin-bottom: 0.8rem;
+}
+
+.intro-disponibilites .texte {
+  max-width: 650px;
+  color: var(--texte-doux);
+}
+
+/* ===== Résumé des horaires ===== */
+.resume-horaires {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+  margin-top: 2.5rem;
+  padding: 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--bordure);
+  border-radius: 12px;
+}
+
+.resume-icone {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--bleu-pale);
+}
+
+.resume-icone svg {
+  width: 25px;
+  height: 25px;
+  fill: none;
+  stroke: var(--bleu);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.resume-infos h2 {
+  margin-bottom: 0.65rem;
+  font-size: 1.2rem;
+}
+
+.resume-infos p {
+  margin-bottom: 0.35rem;
+  color: var(--texte-doux);
+}
+
+.resume-infos p:last-child {
+  margin-bottom: 0;
+}
+
+/* ===== Section du tableau ===== */
+.section-disponibilites {
+  padding-block: 3rem;
+}
+
+.section-titre {
+  margin-bottom: 1.5rem;
+}
+
+.section-titre h2 {
+  margin-bottom: 0.4rem;
+}
+
+.section-titre p {
+  margin-bottom: 0;
+}
+
+/* ===== Tableau ===== */
+.tableau-disponibilites {
+  min-width: 850px;
+}
+
+.tableau-disponibilites td {
+  vertical-align: middle;
+}
+
+.tableau-disponibilites tbody tr:hover {
+  background: #f8faff;
+}
+
+.tableau-disponibilites td strong {
+  color: var(--texte);
+}
+
+/* ===== Statut ===== */
+.statut-disponible {
+  display: inline-block;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  background: var(--vert-pale);
+  color: var(--vert);
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* ===== Note informative ===== */
+.note-tableau {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  margin-top: 1rem;
+  color: var(--texte-doux);
+  font-size: 0.85rem;
+}
+
+.note-tableau svg {
+  flex: none;
+  width: 19px;
+  height: 19px;
+  fill: none;
+  stroke: var(--bleu);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ===== Appel à l'action ===== */
+.appel-disponibilites {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 4rem;
+  padding: 2rem;
+  background: var(--bleu-pale);
+  border-radius: 12px;
+}
+
+.appel-disponibilites h2 {
+  margin-bottom: 0.5rem;
+  font-size: 1.3rem;
+}
+
+.appel-disponibilites p {
+  margin: 0;
+  color: var(--texte-doux);
+}
+
+/* ===== Smartphones ===== */
+@media (max-width: 600px) {
+  .intro-disponibilites {
+    padding-block: 2rem;
+  }
+
+  .resume-horaires {
+    gap: 0.8rem;
+    padding: 1rem;
+  }
+
+  .section-disponibilites {
+    padding-block: 2rem;
+  }
+
+  .appel-disponibilites {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1.5rem;
+  }
+}

@@ -1,0 +1,395 @@
+
+/* ========================================
+   PAGE DE CONNEXION
+======================================== */
+
+.page-connexion {
+    background: var(--fond);
+    padding: 65px 0;
+}
+
+.connexion-conteneur {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 570px;
+    background: var(--surface);
+    border: 1px solid var(--bordure);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+
+/* ========================================
+   PARTIE PRESENTATION
+======================================== */
+
+.connexion-presentation {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 55px 45px;
+    background: var(--bleu);
+    color: white;
+    overflow: hidden;
+}
+
+.presentation-contenu {
+    position: relative;
+    z-index: 2;
+    max-width: 430px;
+}
+
+.presentation-surtitre {
+    display: inline-block;
+    margin-bottom: 20px;
+    padding: 8px 13px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 30px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.connexion-presentation h1 {
+    font-size: 34px;
+    line-height: 1.3;
+    margin-bottom: 20px;
+}
+
+.connexion-presentation > .presentation-contenu > p {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 15px;
+    line-height: 1.8;
+    margin-bottom: 35px;
+}
+
+
+/* Avantages */
+
+.presentation-avantage {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    margin-top: 22px;
+}
+
+.avantage-icone {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: white;
+    color: var(--bleu);
+    font-weight: 800;
+}
+
+.presentation-avantage h3 {
+    font-size: 15px;
+    margin-bottom: 5px;
+}
+
+.presentation-avantage p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+
+/* Décorations */
+
+.presentation-decoration {
+    position: absolute;
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    border-radius: 50%;
+}
+
+.decoration-1 {
+    width: 300px;
+    height: 300px;
+    right: -130px;
+    top: -100px;
+}
+
+.decoration-2 {
+    width: 230px;
+    height: 230px;
+    right: -80px;
+    bottom: -100px;
+}
+
+
+/* ========================================
+   FORMULAIRE DE CONNEXION
+======================================== */
+
+.connexion-formulaire {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 45px;
+}
+
+.connexion-carte {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.connexion-logo {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 22px;
+}
+
+.connexion-logo-icone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 55px;
+    height: 55px;
+    border-radius: 12px;
+    background: var(--bleu-pale);
+    color: var(--bleu);
+    font-size: 35px;
+    font-weight: 600;
+}
+
+.connexion-titre {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.connexion-titre h2 {
+    color: var(--texte);
+    font-size: 27px;
+    margin-bottom: 9px;
+}
+
+.connexion-titre p {
+    color: var(--texte-doux);
+    font-size: 14px;
+}
+
+
+/* Champs */
+
+.champ-connexion {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    margin-bottom: 22px;
+}
+
+.champ-connexion label {
+    color: var(--texte);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.champ-connexion input {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid var(--bordure);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--texte);
+    font-family: var(--police);
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.champ-connexion input:focus {
+    border-color: var(--bleu);
+    box-shadow: 0 0 0 3px rgba(31, 111, 235, 0.12);
+}
+
+.champ-connexion input::placeholder {
+    color: #8a97a9;
+}
+
+
+/* Mot de passe */
+
+.label-mot-de-passe {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.label-mot-de-passe a {
+    color: var(--bleu);
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.label-mot-de-passe a:hover {
+    text-decoration: underline;
+}
+
+
+/* Options */
+
+.options-connexion {
+    margin-bottom: 25px;
+}
+
+.souvenir-compte {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: var(--texte-doux);
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.souvenir-compte input {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--bleu);
+}
+
+
+/* Bouton */
+
+.bouton-connexion {
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    font-family: var(--police);
+    font-size: 14px;
+    padding: 14px;
+}
+
+
+/* Séparation */
+
+.connexion-separation {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 27px 0;
+    color: var(--texte-doux);
+    font-size: 13px;
+}
+
+.connexion-separation::before,
+.connexion-separation::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--bordure);
+}
+
+
+/* Accès réservé à l'administration */
+
+.acces-admin {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px;
+    margin-top: 25px;
+    border: 1px solid var(--bordure);
+    border-radius: 8px;
+    background: var(--fond);
+}
+
+.acces-admin-icone {
+    font-size: 20px;
+}
+
+.acces-admin p {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    line-height: 1.5;
+}
+
+.acces-admin strong {
+    color: var(--texte);
+    font-size: 13px;
+}
+
+.acces-admin p span {
+    color: var(--texte-doux);
+    font-size: 12px;
+}
+
+
+/* Retour */
+
+.connexion-retour {
+    margin-top: 28px;
+    text-align: center;
+}
+
+.connexion-retour a {
+    color: var(--texte-doux);
+    font-size: 13px;
+    text-decoration: none;
+}
+
+.connexion-retour a:hover {
+    color: var(--bleu);
+}
+
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 900px) {
+
+    .connexion-conteneur {
+        grid-template-columns: 1fr;
+    }
+
+    .connexion-presentation {
+        padding: 40px;
+    }
+
+    .presentation-contenu {
+        max-width: 600px;
+    }
+
+    .connexion-presentation h1 {
+        font-size: 29px;
+    }
+
+    .connexion-formulaire {
+        padding: 45px 30px;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .page-connexion {
+        padding: 30px 0;
+    }
+
+    .connexion-presentation {
+        padding: 35px 25px;
+    }
+
+    .connexion-presentation h1 {
+        font-size: 25px;
+    }
+
+    .connexion-formulaire {
+        padding: 35px 20px;
+    }
+
+    .connexion-titre h2 {
+        font-size: 24px;
+    }
+
+}
