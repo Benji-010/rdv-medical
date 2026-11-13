@@ -326,6 +326,7 @@
           <li><a href="medecins.php">Médecins</a></li>
           <li><a href="salles.php">Salles</a></li>
           <li><a href="disponibilites.php">Disponibilités</a></li>
+          <li><a href="demande-rendez-vous.php"></a>Prendre rendez-vous</li>
           <li><a href="login.php">Connexion</a></li>
         </ul>
 

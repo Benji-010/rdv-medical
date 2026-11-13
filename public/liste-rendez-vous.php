@@ -35,13 +35,13 @@
         <nav class="menu">
             <ul class="menu-liste">
                 <li><a href="tableau-de-bord.php">Tableau de bord</a></li>
-                <li><a href="medecins.php">Médecins</a></li>
-                <li><a href="salles.php">Salles</a></li>
-                <li><a href="disponibilites.php">Disponibilités</a></li>
+                <li><a href="gestion-medecins.php">Médecins</a></li>
+                <li><a href="#.php">Salles</a></li>
+                <li><a href="#.php">Disponibilités</a></li>
                 <li><a href="patients.php">Patients</a></li>
                 <li><a href="statistiques.php">Statistiques</a></li>
                 <li><a href="liste-rendez-vous.php" aria-current="page">Rendez-vous</a></li>
-                <li><a href="login.php" class="lien-deconnexion">Déconnexion</a></li>
+                <li><a href="#.php" class="lien-deconnexion">Déconnexion</a></li>
             </ul>
         </nav>
 
@@ -352,7 +352,6 @@
         <h2>Liens rapides</h2>
 
         <ul>
-          <li><a href="index.php">Accueil</a></li>
           <li><a href="tableau-de-bord.php">Tableau de bord</a></li>
           <li><a href="medecins.php">Médecins</a></li>
           <li><a href="salles.php">Salles</a></li>
