@@ -32,22 +32,23 @@
             </span>
         </a>
 
-        <nav class="menu">
-            <ul class="menu-liste">
-                <li><a href="tableau-de-bord.php">Tableau de bord</a></li>
-                <li><a href="gestion-medecins.php">Médecins</a></li>
-                <li><a href="gestion-salles.php" aria-current="page">Salles</a></li>
-                <li><a href="gestion-disponibilites.php">Disponibilités</a></li>
-                <li><a href="patients.php">Patients</a></li>
-                <li><a href="statistiques.php">Statistiques</a></li>
-                <li><a href="liste-rendez-vous.php">Rendez-vous</a></li>
-                <li><a href="logout.php" class="lien-deconnexion">Déconnexion</a></li>
-            </ul>
-        </nav>
+         <nav class="menu" id="menu-principal">
+                <ul class="menu-liste">
+                    <li><a href="tableau-de-bord.php">Tableau de bord</a></li>
+                    <li><a href="gestion-medecins.php">Médecins</a></li>
+                    <li><a href="gestion-salles.php" aria-current="page">Salles</a></li>
+                    <li><a href="gestion-disponibilites.php">Disponibilités</a></li>
+                    <li><a href="patients.php">Patients</a></li>
+                    <li><a href="statistiques.php">Statistiques</a></li>
+                    <li><a href="liste-rendez-vous.php">Rendez-vous</a></li>
+                    <li><a href="#" class="lien-deconnexion">Déconnexion</a></li>
+                </ul>
+            </nav>
 
-        <button class="menu-bouton" aria-label="Ouvrir le menu">
-            <span></span><span></span><span></span>
-        </button>
+            <button class="menu-bouton" type="button"
+              aria-expanded="false" aria-controls="menu-principal">
+        Menu
+      </button>
     </div>
 </header>
 
@@ -124,7 +125,7 @@
 
             <article class="carte-salle">
                 <div class="salle-image">
-                    <img src="assets/images/salle-consultation.jpg" alt="Salle de consultation générale">
+                <img src="assets/img/salle-consultation.jpeg" alt="Salle de consultation générale">    
                     <span class="statut-salle disponible">Disponible</span>
                 </div>
                 <div class="salle-contenu">
@@ -145,7 +146,7 @@
 
             <article class="carte-salle">
                 <div class="salle-image">
-                    <img src="assets/images/salle-radiologie.jpg" alt="Salle de radiologie">
+                    <img src="assets/img/salle-radiologie.jpeg" alt="Salle de radiologie">
                     <span class="statut-salle disponible">Disponible</span>
                 </div>
                 <div class="salle-contenu">
@@ -166,7 +167,7 @@
 
             <article class="carte-salle">
                 <div class="salle-image">
-                    <img src="assets/images/salle-echographie.jpg" alt="Salle d'échographie">
+                    <img src="assets/img/salle-echographie.jpeg" alt="Salle d'échographie">
                     <span class="statut-salle occupe">Occupée</span>
                 </div>
                 <div class="salle-contenu">
@@ -187,7 +188,7 @@
 
             <article class="carte-salle">
                 <div class="salle-image">
-                    <img src="assets/images/salle-ecg.jpg" alt="Salle d'électrocardiogramme">
+                    <img src="assets/img/salle-ecg.jpeg" alt="Salle d'électrocardiogramme">
                     <span class="statut-salle disponible">Disponible</span>
                 </div>
                 <div class="salle-contenu">
@@ -208,7 +209,7 @@
 
             <article class="carte-salle">
                 <div class="salle-image">
-                    <img src="assets/images/salle-scanner.jpg" alt="Salle de scanner">
+                    <img src="assets/img/salle-scanner.jpeg" alt="Salle de scanner">
                     <span class="statut-salle disponible">Disponible</span>
                 </div>
                 <div class="salle-contenu">
@@ -229,7 +230,7 @@
 
             <article class="carte-salle">
                 <div class="salle-image">
-                    <img src="assets/images/salle-irm.jpg" alt="Salle d'IRM">
+                    <img src="assets/img/salle-irm.jpeg" alt="Salle d'IRM">
                     <span class="statut-salle disponible">Disponible</span>
                 </div>
                 <div class="salle-contenu">

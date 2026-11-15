@@ -34,7 +34,7 @@
         </span>
       </a>
 
-            <nav class="menu">
+            <nav class="menu" id="menu-principal">
                 <ul class="menu-liste">
                     <li><a href="tableau-de-bord.php" aria-current="page">Tableau de bord</a></li>
                     <li><a href="gestion-medecins.php">Médecins</a></li>
@@ -342,9 +342,9 @@
 
         <ul>
           <li><a href="tableau-de-bord.php">Tableau de bord</a></li>
-          <li><a href="medecins.php">Médecins</a></li>
-          <li><a href="salles.php">Salles</a></li>
-          <li><a href="disponibilites.php">Disponibilités</a></li>
+          <li><a href="gestion-medecins.php">Médecins</a></li>
+          <li><a href="gestion-salles.php">Salles</a></li>
+          <li><a href="gestion-disponibilites.php">Disponibilités</a></li>
           <li><a href="patients.php">Patients</a></li>
           <li><a href="statistiques.php">Statistiques</a></li>
           <li><a href="liste-rendez-vous.php">Rendez-vous</a></li>

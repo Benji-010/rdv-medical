@@ -110,7 +110,7 @@
         <!-- MÉDECIN 1 -->
         <article class="carte-medecin">
 
-          <img src="assets/img/medecin-1.jpg"
+          <img src="assets/img/medecin-1.jpeg"
                alt="Portrait du docteur Jean Kabeya"
                class="photo-medecin">
 
@@ -132,7 +132,7 @@
         <!-- MÉDECIN 2 -->
         <article class="carte-medecin">
 
-          <img src="assets/img/medecin-2.jpg"
+          <img src="assets/img/medecin-2.jpeg"
                alt="Portrait de la docteure Marie Ilunga"
                class="photo-medecin">
 
@@ -154,7 +154,7 @@
         <!-- MÉDECIN 3 -->
         <article class="carte-medecin">
 
-          <img src="assets/img/medecin-3.jpg"
+          <img src="assets/img/medecin-3.jpeg"
                alt="Portrait du docteur Patrick Mbuyi"
                class="photo-medecin">
 
@@ -176,7 +176,7 @@
         <!-- MÉDECIN 4 -->
         <article class="carte-medecin">
 
-          <img src="assets/img/medecin-4.jpg"
+          <img src="assets/img/medecin-4.jpeg"
                alt="Portrait de la docteure Sarah Nsimba"
                class="photo-medecin">
 

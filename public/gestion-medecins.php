@@ -32,22 +32,23 @@
         </span>
       </a>
 
-        <nav class="menu">
-            <ul class="menu-liste">
-                <li><a href="tableau-de-bord.php">Tableau de bord</a></li>
-                <li><a href="gestion-medecins.php"  aria-current="page">Médecins</a></li>
-                <li><a href="gestion-salles.php">Salles</a></li>
-                <li><a href="#.php">Disponibilités</a></li>
-                <li><a href="patients.php">Patients</a></li>
-                <li><a href="statistiques.php">Statistiques</a></li>
-                <li><a href="liste-rendez-vous.php">Rendez-vous</a></li>
-                <li><a href="#.php" class="lien-deconnexion">Déconnexion</a></li>
-            </ul>
-        </nav>
+        <nav class="menu" id="menu-principal">
+                <ul class="menu-liste">
+                    <li><a href="tableau-de-bord.php">Tableau de bord</a></li>
+                    <li><a href="gestion-medecins.php" aria-current="page">Médecins</a></li>
+                    <li><a href="gestion-salles.php">Salles</a></li>
+                    <li><a href="gestion-disponibilites.php">Disponibilités</a></li>
+                    <li><a href="patients.php">Patients</a></li>
+                    <li><a href="statistiques.php">Statistiques</a></li>
+                    <li><a href="liste-rendez-vous.php">Rendez-vous</a></li>
+                    <li><a href="#" class="lien-deconnexion">Déconnexion</a></li>
+                </ul>
+            </nav>
 
-        <button class="menu-bouton" aria-label="Ouvrir le menu">
-            <span></span><span></span><span></span>
-        </button>
+            <button class="menu-bouton" type="button"
+              aria-expanded="false" aria-controls="menu-principal">
+        Menu
+      </button>
     </div>
 </header>
 
@@ -136,7 +137,7 @@
           <tr>
             <td>
               <div class="medecin-identite">
-                <img src="assets/images/medecin-1.jpg" alt="Dr Jean Kabeya">
+              <img src="assets/img/medecin-1.jpeg" alt="Docteur Jean Kabeya">  
                 <strong>Dr Jean Kabeya</strong>
               </div>
             </td>
@@ -156,7 +157,7 @@
           <tr>
             <td>
               <div class="medecin-identite">
-                <img src="assets/images/medecin-2.jpg" alt="Dr Marie Ilunga">
+                <img src="assets/img/medecin-2.jpeg" alt="Dr Marie Ilunga">
                 <strong>Dr Marie Ilunga</strong>
               </div>
             </td>
@@ -176,7 +177,7 @@
           <tr>
             <td>
               <div class="medecin-identite">
-                <img src="assets/images/medecin-3.jpg" alt="Dr Patrick Mbuyi">
+                <img src="assets/img/medecin-3.jpeg" alt="Dr Patrick Mbuyi">
                 <strong>Dr Patrick Mbuyi</strong>
               </div>
             </td>
@@ -196,7 +197,7 @@
           <tr>
             <td>
               <div class="medecin-identite">
-                <img src="assets/images/medecin-4.jpg" alt="Dr Sarah Nsimba">
+                <img src="assets/img/medecin-4.jpeg" alt="Dr Sarah Nsimba">
                 <strong>Dr Sarah Nsimba</strong>
               </div>
             </td>
@@ -271,7 +272,7 @@
           <li><a href="tableau-de-bord.php">Tableau de bord</a></li>
           <li><a href="gestion-medecins.php">Médecins</a></li>
           <li><a href="gestion-salles.php">Salles</a></li>
-          <li><a href="#.php">Disponibilités</a></li>
+          <li><a href="gestion-disponibilites.php">Disponibilités</a></li>
           <li><a href="patients.php">Patients</a></li>
           <li><a href="statistiques.php">Statistiques</a></li>
           <li><a href="liste-rendez-vous.php">Rendez-vous</a></li>

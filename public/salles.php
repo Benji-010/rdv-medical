@@ -104,7 +104,7 @@
         <!-- SALLE 1 -->
         <article class="carte-salle">
 
-          <img src="assets/img/salle-consultation.jpg"
+          <img src="assets/img/salle-consultation.jpeg"
                alt="Salle de consultation médicale"
                class="photo-salle">
 
@@ -130,7 +130,7 @@
         <!-- SALLE 2 -->
         <article class="carte-salle">
 
-          <img src="assets/img/salle-radiologie.jpg"
+          <img src="assets/img/salle-radiologie.jpeg"
                alt="Salle de radiologie"
                class="photo-salle">
 
@@ -157,7 +157,7 @@
         <!-- SALLE 3 -->
         <article class="carte-salle">
 
-          <img src="assets/img/salle-echographie.jpg"
+          <img src="assets/img/salle-echographie.jpeg"
                alt="Salle d'échographie"
                class="photo-salle">
 
@@ -183,7 +183,7 @@
         <!-- SALLE 4 -->
         <article class="carte-salle">
 
-          <img src="assets/img/salle-ecg.jpg"
+          <img src="assets/img/salle-ecg.jpeg"
                alt="Salle d'électrocardiogramme"
                class="photo-salle">
 
@@ -209,7 +209,7 @@
         <!-- SALLE 5 -->
         <article class="carte-salle">
 
-          <img src="assets/img/salle-scanner.jpg"
+          <img src="assets/img/salle-scanner.jpeg"
                alt="Salle de scanner médical"
                class="photo-salle">
 
@@ -235,7 +235,7 @@
         <!-- SALLE 6 -->
         <article class="carte-salle">
 
-          <img src="assets/img/salle-irm.jpg"
+          <img src="assets/img/salle-irm.jpeg"
                alt="Salle d'imagerie par résonance magnétique"
                class="photo-salle">
 
