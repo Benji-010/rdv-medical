@@ -1,0 +1,71 @@
+main { padding-block: 0 4rem; }
+.bloc { margin-top: 4rem; }
+
+/* Icônes */
+.icone-rond {
+  flex: none; display: grid; place-items: center;
+  width: 48px; height: 48px; border-radius: 50%; background: var(--bleu-pale);
+}
+.icone-rond svg, .engagement svg, .btn-icone svg {
+  fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
+}
+.icone-rond svg { width: 24px; height: 24px; stroke: var(--bleu); }
+
+/* Bandeau d'ouverture */
+.hero { background: var(--bleu-pale); padding-block: 3rem; }
+.hero-grille { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 3rem; align-items: center; }
+.hero .texte { color: var(--texte-doux); font-size: 1.1rem; }
+.hero-image {
+  width: 100%; aspect-ratio: 4 / 3; object-fit: cover;
+  border-radius: 20px; background: #cfe0fb;
+}
+.btn-icone { display: inline-flex; align-items: center; gap: 0.6rem; margin-top: 0.5rem; }
+.btn-icone svg { width: 20px; height: 20px; stroke: currentColor; }
+
+/* À propos */
+.apropos { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+.apropos-image {
+  width: 100%; aspect-ratio: 16 / 10; object-fit: cover;
+  border-radius: 16px; background: var(--bleu-pale);
+}
+.engagement {
+  display: inline-flex; align-items: center; gap: 0.6rem; margin: 0;
+  padding: 0.75rem 1rem; border-radius: var(--rayon);
+  background: var(--bleu-pale); color: var(--bleu-fonce); font-weight: 600;
+}
+.engagement svg { width: 22px; height: 22px; stroke: currentColor; }
+
+/* Services */
+.services {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem;
+}
+.services li {
+  display: grid; justify-items: center; align-content: start; gap: 0.5rem;
+  padding: 1.5rem 1rem; text-align: center;
+  background: var(--surface); border: 1px solid var(--bordure); border-radius: var(--rayon);
+}
+.services .icone-rond { width: 56px; height: 56px; }
+.services h3 { margin: 0; font-size: 1rem; }
+.services p { margin: 0; font-size: 0.9rem; color: var(--texte-doux); }
+
+/* Horaires et avantages */
+.deux-colonnes { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: start; }
+.horaires-liste { margin: 0; }
+.horaires-liste div {
+  display: flex; justify-content: space-between; gap: 1rem;
+  padding: 0.7rem 0; border-bottom: 1px solid var(--bordure);
+}
+.horaires-liste div:last-child { border-bottom: 0; }
+.horaires-liste dt { font-weight: 600; }
+.horaires-liste dd { margin: 0; color: var(--texte-doux); }
+
+.avantages { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.25rem; }
+.avantages li { display: flex; align-items: flex-start; gap: 1rem; }
+.avantages h3 { margin: 0 0 0.15rem; font-size: 1rem; }
+.avantages p { margin: 0; font-size: 0.95rem; color: var(--texte-doux); }
+
+@media (max-width: 800px) {
+  .hero-grille, .apropos, .deux-colonnes { grid-template-columns: 1fr; gap: 1.5rem; }
+  .hero { padding-block: 2rem; }
+}

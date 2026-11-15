@@ -1,0 +1,231 @@
+
+/* ========================================
+   INTRODUCTION
+======================================== */
+
+.intro-rendez-vous {
+    background: var(--bleu-pale);
+    padding: 65px 0;
+    text-align: center;
+}
+
+.intro-rendez-vous .surtitre {
+    display: inline-block;
+    color: var(--bleu);
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 14px;
+}
+
+.intro-rendez-vous h1 {
+    color: var(--texte);
+    font-size: 36px;
+    margin-bottom: 16px;
+}
+
+.intro-rendez-vous p {
+    max-width: 650px;
+    margin: 0 auto;
+    color: var(--texte-doux);
+    line-height: 1.7;
+}
+
+
+/* ========================================
+   SECTION FORMULAIRE
+======================================== */
+
+.section-rendez-vous {
+    padding: 65px 0;
+    background: var(--fond);
+}
+
+.formulaire-conteneur {
+    max-width: 850px;
+    margin: 0 auto;
+    background: var(--surface);
+    border: 1px solid var(--bordure);
+    border-radius: var(--rayon);
+    padding: 35px;
+}
+
+.formulaire-entete {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--bordure);
+}
+
+.formulaire-entete h2 {
+    color: var(--texte);
+    font-size: 23px;
+    margin-bottom: 8px;
+}
+
+.formulaire-entete p {
+    color: var(--texte-doux);
+    font-size: 14px;
+}
+
+
+/* ========================================
+   CHAMPS DU FORMULAIRE
+======================================== */
+
+.groupe-champs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px 20px;
+}
+
+.champ-rendez-vous {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.champ-complet {
+    grid-column: 1 / -1;
+}
+
+.champ-rendez-vous label {
+    color: var(--texte);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.champ-rendez-vous input,
+.champ-rendez-vous select,
+.champ-rendez-vous textarea {
+    width: 100%;
+    padding: 13px 14px;
+    border: 1px solid var(--bordure);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--texte);
+    font-family: var(--police);
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.champ-rendez-vous input:focus,
+.champ-rendez-vous select:focus,
+.champ-rendez-vous textarea:focus {
+    border-color: var(--bleu);
+    box-shadow: 0 0 0 3px rgba(31, 111, 235, 0.12);
+}
+
+.champ-rendez-vous input::placeholder,
+.champ-rendez-vous textarea::placeholder {
+    color: #8a97a9;
+}
+
+.champ-rendez-vous textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+
+/* ========================================
+   AVERTISSEMENT
+======================================== */
+
+.avertissement-formulaire {
+    margin-top: 25px;
+    padding: 14px 16px;
+    border-radius: 6px;
+    background: var(--orange-pale);
+    color: var(--orange);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+
+/* ========================================
+   BOUTONS
+======================================== */
+
+.actions-formulaire {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 28px;
+}
+
+
+/* ========================================
+   INFORMATIONS COMPLEMENTAIRES
+======================================== */
+
+.info-rendez-vous {
+    padding: 45px 0;
+    background: var(--bleu-pale);
+}
+
+.info-rendez-vous-interieur {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+}
+
+.info-rendez-vous h2 {
+    color: var(--texte);
+    font-size: 22px;
+    margin-bottom: 8px;
+}
+
+.info-rendez-vous p {
+    color: var(--texte-doux);
+    line-height: 1.6;
+}
+
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 650px) {
+
+    .intro-rendez-vous {
+        padding: 45px 0;
+    }
+
+    .intro-rendez-vous h1 {
+        font-size: 28px;
+    }
+
+    .section-rendez-vous {
+        padding: 40px 0;
+    }
+
+    .formulaire-conteneur {
+        padding: 22px 18px;
+    }
+
+    .groupe-champs {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .champ-complet {
+        grid-column: auto;
+    }
+
+    .actions-formulaire {
+        flex-direction: column-reverse;
+    }
+
+    .actions-formulaire .btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .info-rendez-vous-interieur {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+}

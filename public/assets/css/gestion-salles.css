@@ -1,0 +1,344 @@
+
+.page-salles {
+    padding-top: 40px;
+    padding-bottom: 55px;
+}
+
+.entete-page {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 30px;
+}
+
+.sur-titre {
+    display: inline-block;
+    color: var(--bleu);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    margin-bottom: 8px;
+}
+
+.entete-page h1 {
+    color: var(--texte);
+    font-size: 30px;
+    margin: 0 0 8px;
+}
+
+.entete-page p,
+.section-entete p {
+    color: var(--texte-doux);
+    margin: 0;
+    line-height: 1.6;
+}
+
+.resume-salles {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 28px;
+}
+
+.resume-carte {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 22px;
+    background: var(--surface);
+    border: 1px solid var(--bordure);
+    border-radius: var(--rayon);
+}
+
+.resume-icone {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    color: var(--bleu);
+    background: var(--bleu-pale);
+    border-radius: 10px;
+    font-size: 22px;
+}
+
+.resume-icone.disponible {
+    color: var(--vert);
+    background: var(--vert-pale);
+}
+
+.resume-icone.occupe {
+    color: var(--orange);
+    background: var(--orange-pale);
+}
+
+.resume-carte p {
+    color: var(--texte-doux);
+    font-size: 13px;
+    margin: 0 0 5px;
+}
+
+.resume-carte h2 {
+    color: var(--texte);
+    font-size: 25px;
+    margin: 0;
+}
+
+.section-salles {
+    padding: 25px;
+}
+
+.section-entete {
+    margin-bottom: 22px;
+}
+
+.section-entete h2 {
+    color: var(--texte);
+    font-size: 20px;
+    margin: 0 0 7px;
+}
+
+.outils-salles {
+    display: grid;
+    grid-template-columns: 1fr 220px 190px;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.outils-salles input,
+.outils-salles select {
+    width: 100%;
+    min-height: 43px;
+    padding: 10px 13px;
+    border: 1px solid var(--bordure);
+    border-radius: 7px;
+    background: var(--surface);
+    color: var(--texte);
+    font: inherit;
+    font-size: 13px;
+}
+
+.grille-salles {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.carte-salle {
+    overflow: hidden;
+    border: 1px solid var(--bordure);
+    border-radius: var(--rayon);
+    background: var(--surface);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.carte-salle:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 22px rgba(20, 35, 59, 0.08);
+}
+
+.salle-image {
+    position: relative;
+    height: 175px;
+    background: var(--fond);
+}
+
+.salle-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.statut-salle {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    padding: 6px 11px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.statut-salle.disponible {
+    color: var(--vert);
+    background: var(--vert-pale);
+}
+
+.statut-salle.occupe {
+    color: var(--orange);
+    background: var(--orange-pale);
+}
+
+.salle-contenu {
+    padding: 18px;
+}
+
+.salle-reference {
+    color: var(--bleu);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+}
+
+.salle-contenu h3 {
+    color: var(--texte);
+    font-size: 16px;
+    margin: 8px 0;
+}
+
+.salle-contenu > p {
+    min-height: 58px;
+    color: var(--texte-doux);
+    font-size: 12px;
+    line-height: 1.6;
+    margin: 0 0 15px;
+}
+
+.salle-infos {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    padding: 12px 0;
+    border-top: 1px solid var(--bordure);
+    color: var(--texte-doux);
+    font-size: 11px;
+}
+
+.salle-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding-top: 12px;
+    border-top: 1px solid var(--bordure);
+}
+
+.action-btn {
+    border: 0;
+    padding: 8px 10px;
+    border-radius: 5px;
+    font: inherit;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.action-btn.voir {
+    color: var(--bleu-fonce);
+    background: var(--bleu-pale);
+}
+
+.action-btn.modifier {
+    color: var(--orange);
+    background: var(--orange-pale);
+}
+
+.action-btn.supprimer {
+    color: var(--rouge);
+    background: var(--rouge-pale);
+}
+
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding-top: 22px;
+    margin-top: 20px;
+    border-top: 1px solid var(--bordure);
+    color: var(--texte-doux);
+    font-size: 12px;
+}
+
+.pagination div {
+    display: flex;
+    gap: 6px;
+}
+
+.pagination button {
+    padding: 8px 11px;
+    border: 1px solid var(--bordure);
+    border-radius: 5px;
+    background: var(--surface);
+    color: var(--texte);
+    font: inherit;
+}
+
+.pagination button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.pagination .page-active {
+    color: white;
+    background: var(--bleu);
+    border-color: var(--bleu);
+}
+
+.note-administration {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-top: 20px;
+    padding: 16px;
+    background: var(--bleu-pale);
+    border-radius: var(--rayon);
+    color: var(--texte-doux);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.note-administration p {
+    margin: 0;
+}
+
+@media (max-width: 1000px) {
+    .grille-salles {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .outils-salles {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .outils-salles input {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 700px) {
+    .entete-page {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .entete-page h1 {
+        font-size: 25px;
+    }
+
+    .resume-salles {
+        grid-template-columns: 1fr;
+    }
+
+    .grille-salles {
+        grid-template-columns: 1fr;
+    }
+
+    .outils-salles {
+        grid-template-columns: 1fr;
+    }
+
+    .outils-salles input {
+        grid-column: auto;
+    }
+
+    .section-salles {
+        padding: 17px;
+    }
+
+    .pagination {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}

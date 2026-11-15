@@ -1,0 +1,451 @@
+
+/* ========================================
+   ESPACE ADMINISTRATION
+======================================== */
+
+.administration {
+    padding: 45px 0 65px;
+    background: var(--fond);
+}
+
+
+/* ========================================
+   BIENVENUE
+======================================== */
+
+.bienvenue-admin {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+    margin-bottom: 45px;
+}
+
+.surtitre-admin {
+    display: inline-block;
+    color: var(--bleu);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+
+.bienvenue-admin h1 {
+    color: var(--texte);
+    font-size: 30px;
+    margin-bottom: 12px;
+}
+
+.bienvenue-admin p {
+    max-width: 650px;
+    color: var(--texte-doux);
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+
+/* ========================================
+   TITRES DES SECTIONS
+======================================== */
+
+.section-indicateurs,
+.section-activite,
+.section-raccourcis {
+    margin-bottom: 42px;
+}
+
+.titre-section-admin {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.titre-section-admin h2 {
+    color: var(--texte);
+    font-size: 21px;
+    margin-bottom: 7px;
+}
+
+.titre-section-admin p {
+    color: var(--texte-doux);
+    font-size: 13px;
+}
+
+.lien-section {
+    color: var(--bleu);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.lien-section:hover {
+    text-decoration: underline;
+}
+
+
+/* ========================================
+   CARTES INDICATEURS
+======================================== */
+
+.grille-indicateurs {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+}
+
+.carte-indicateur {
+    padding: 22px;
+    background: var(--surface);
+    border: 1px solid var(--bordure);
+    border-radius: var(--rayon);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.carte-indicateur:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(20, 35, 59, 0.06);
+}
+
+.indicateur-haut {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.indicateur-icone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 43px;
+    height: 43px;
+    border-radius: 9px;
+    font-size: 23px;
+    font-weight: 700;
+}
+
+.icone-patients {
+    background: var(--bleu-pale);
+    color: var(--bleu);
+}
+
+.icone-medecins {
+    background: var(--vert-pale);
+    color: var(--vert);
+}
+
+.icone-rendez-vous {
+    background: var(--orange-pale);
+    color: var(--orange);
+}
+
+.icone-attente {
+    background: var(--rouge-pale);
+    color: var(--rouge);
+}
+
+.indicateur-evolution {
+    color: var(--texte-doux);
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.indicateur-libelle {
+    color: var(--texte-doux);
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.carte-indicateur h3 {
+    color: var(--texte);
+    font-size: 29px;
+    margin-bottom: 15px;
+}
+
+.carte-indicateur > a {
+    color: var(--bleu);
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.carte-indicateur > a:hover {
+    text-decoration: underline;
+}
+
+
+/* ========================================
+   TABLEAU DES RENDEZ-VOUS
+======================================== */
+
+.tableau-admin {
+    padding: 0;
+    overflow: hidden;
+    background: var(--surface);
+    border: 1px solid var(--bordure);
+    border-radius: var(--rayon);
+}
+
+.tableau-admin table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tableau-admin th {
+    padding: 16px 18px;
+    background: #f0f4fa;
+    color: var(--texte-doux);
+    font-size: 12px;
+    font-weight: 700;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.tableau-admin td {
+    padding: 16px 18px;
+    border-top: 1px solid var(--bordure);
+    color: var(--texte);
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.tableau-admin tbody tr:hover {
+    background: #f9fbfe;
+}
+
+
+/* Identité des patients */
+
+.patient-tableau {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+}
+
+.avatar-patient {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 33px;
+    height: 33px;
+    border-radius: 50%;
+    background: var(--bleu-pale);
+    color: var(--bleu);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.avatar-2 {
+    background: var(--vert-pale);
+    color: var(--vert);
+}
+
+.avatar-3 {
+    background: var(--orange-pale);
+    color: var(--orange);
+}
+
+.avatar-4 {
+    background: var(--rouge-pale);
+    color: var(--rouge);
+}
+
+
+/* Statuts */
+
+.tableau-admin .badge {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.tableau-admin .badge-en-attente {
+    background: var(--orange-pale);
+    color: var(--orange);
+}
+
+.tableau-admin .badge-confirme {
+    background: var(--vert-pale);
+    color: var(--vert);
+}
+
+
+/* ========================================
+   RACCOURCIS
+======================================== */
+
+.grille-raccourcis {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.carte-raccourci {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px;
+    background: var(--surface);
+    border: 1px solid var(--bordure);
+    border-radius: var(--rayon);
+    text-decoration: none;
+    transition: border-color 0.2s, transform 0.2s;
+}
+
+.carte-raccourci:hover {
+    border-color: var(--bleu);
+    transform: translateY(-2px);
+}
+
+.raccourci-icone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    background: var(--bleu-pale);
+    color: var(--bleu);
+    font-size: 24px;
+}
+
+.raccourci-violet {
+    background: #f0eafd;
+    color: #7042bd;
+}
+
+.raccourci-orange {
+    background: var(--orange-pale);
+    color: var(--orange);
+}
+
+.raccourci-vert {
+    background: var(--vert-pale);
+    color: var(--vert);
+}
+
+.carte-raccourci h3 {
+    color: var(--texte);
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+.carte-raccourci p {
+    color: var(--texte-doux);
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.raccourci-fleche {
+    margin-left: auto;
+    color: var(--bleu);
+    font-size: 20px;
+}
+
+
+/* ========================================
+   NOTE INFORMATIVE
+======================================== */
+
+.note-administration {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px 18px;
+    background: var(--bleu-pale);
+    border: 1px solid #cbdcf7;
+    border-radius: var(--rayon);
+    margin-top: 10px;
+}
+
+.note-icone {
+    color: var(--bleu);
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.note-administration p {
+    color: var(--texte-doux);
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.note-administration strong {
+    color: var(--texte);
+}
+
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 1000px) {
+
+    .grille-indicateurs {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .administration {
+        padding: 35px 0 45px;
+    }
+
+    .bienvenue-admin {
+        align-items: flex-start;
+        flex-direction: column;
+        margin-bottom: 35px;
+    }
+
+    .bienvenue-admin h1 {
+        font-size: 25px;
+    }
+
+    .titre-section-admin h2 {
+        font-size: 19px;
+    }
+
+    .grille-raccourcis {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    .grille-indicateurs {
+        grid-template-columns: 1fr;
+    }
+
+    .carte-indicateur {
+        padding: 19px;
+    }
+
+    .titre-section-admin {
+        align-items: flex-start;
+    }
+
+    .carte-raccourci {
+        padding: 16px;
+        gap: 12px;
+    }
+
+    .raccourci-icone {
+        width: 42px;
+        height: 42px;
+        font-size: 21px;
+    }
+
+}

@@ -1,0 +1,148 @@
+
+/* ===== Introduction ===== */
+.intro-medecins {
+  background: var(--bleu-pale);
+  padding-block: 3rem;
+  text-align: center;
+}
+
+.intro-medecins .conteneur {
+  display: grid;
+  justify-items: center;
+}
+
+.surtitre {
+  margin-bottom: 0.7rem;
+  color: var(--bleu-fonce);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.intro-medecins h1 {
+  margin-bottom: 0.8rem;
+}
+
+.intro-medecins .texte {
+  max-width: 650px;
+  color: var(--texte-doux);
+}
+
+/* ===== Section des médecins ===== */
+.section-medecins {
+  padding-block: 3rem 1rem;
+}
+
+.section-titre {
+  margin-bottom: 2rem;
+}
+
+.section-titre h2 {
+  margin-bottom: 0.4rem;
+}
+
+.section-titre p {
+  margin-bottom: 0;
+}
+
+/* ===== Grille des médecins ===== */
+.grille-medecins {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+/* ===== Carte individuelle ===== */
+.carte-medecin {
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--bordure);
+  border-radius: 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.carte-medecin:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(20, 35, 59, 0.09);
+}
+
+/* ===== Photo du médecin ===== */
+.photo-medecin {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  background: var(--bleu-pale);
+}
+
+/* ===== Informations du médecin ===== */
+.infos-medecin {
+  padding: 1.25rem;
+}
+
+.specialite {
+  display: inline-block;
+  margin-bottom: 0.75rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  background: var(--bleu-pale);
+  color: var(--bleu-fonce);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.infos-medecin h3 {
+  margin-bottom: 0.6rem;
+  font-size: 1.1rem;
+}
+
+.infos-medecin p {
+  margin: 0;
+  color: var(--texte-doux);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+/* ===== Appel à l'action ===== */
+.appel-medecins {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-top: 4rem;
+  padding: 2rem;
+  background: var(--bleu-pale);
+  border-radius: 12px;
+}
+
+.appel-medecins h2 {
+  margin-bottom: 0.5rem;
+}
+
+.appel-medecins p {
+  margin: 0;
+  color: var(--texte-doux);
+}
+
+/* ===== Tablettes ===== */
+@media (max-width: 1000px) {
+  .grille-medecins {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ===== Smartphones ===== */
+@media (max-width: 600px) {
+  .intro-medecins {
+    padding-block: 2rem;
+  }
+
+  .grille-medecins {
+    grid-template-columns: 1fr;
+  }
+
+  .appel-medecins {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1.5rem;
+  }
+}
