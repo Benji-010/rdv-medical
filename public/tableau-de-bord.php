@@ -110,7 +110,7 @@
 
                         <p class="indicateur-libelle">Médecins</p>
                         <h3>12</h3>
-                        <a href="medecins.php">Voir les médecins →</a>
+                        <a href="gestion-medecins.php">Voir les médecins →</a>
                     </article>
 
 
@@ -275,7 +275,7 @@
                     </a>
 
 
-                    <a href="medecins.php" class="carte-raccourci">
+                    <a href="gestion-medecins.php" class="carte-raccourci">
                         <span class="raccourci-icone raccourci-vert">✚</span>
                         <div>
                             <h3>Gestion des médecins</h3>
