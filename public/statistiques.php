@@ -41,7 +41,7 @@
                     <li><a href="patients.php">Patients</a></li>
                     <li><a href="statistiques.php" aria-current="page">Statistiques</a></li>
                     <li><a href="liste-rendez-vous.php">Rendez-vous</a></li>
-                    <li><a href="#" class="lien-deconnexion">Déconnexion</a></li>
+                    <li><a href="logout.php" class="lien-deconnexion">Déconnexion</a></li>
                 </ul>
             </nav>
 

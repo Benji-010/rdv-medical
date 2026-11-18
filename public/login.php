@@ -1,3 +1,35 @@
+<?php
+
+require_once __DIR__ . '/../src/Auth.php';
+
+// Si l'admin est déjà connecté, on le renvoie directement.
+if (Auth::estConnecte()) {
+    header('Location: tableau-de-bord.php');
+    exit;
+}
+
+$erreur = '';
+$identifiant = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $identifiant = trim($_POST['identifiant'] ?? '');
+    $motDePasse  = $_POST['mot_de_passe'] ?? '';
+
+    if ($identifiant === '' || $motDePasse === '') {
+        $erreur = 'Veuillez remplir tous les champs.';
+    } else {
+        try {
+            if (Auth::connecter($identifiant, $motDePasse)) {
+                header('Location: tableau-de-bord.php');
+                exit;
+            }
+            $erreur = 'Identifiant ou mot de passe incorrect.';
+        } catch (PDOException $e) {
+            $erreur = 'Une erreur est survenue. Veuillez réessayer.';
+        }
+    }
+}
+?>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -126,14 +158,21 @@
                         <p>Accédez à votre compte personnel.</p>
                     </div>
 
+<?php if ($erreur !== ''): ?>
+    <div class="alerte alerte-erreur" role="alert">
+      <?= htmlspecialchars($erreur) ?>
+    </div>
+<?php endif; ?>
+
                     <form action="" method="POST">
 
                         <div class="champ-connexion">
-                            <label for="identifiant">Adresse e-mail ou identifiant</label>
+                            <label for="identifiant">Identifiant</label>
                             <input
                                 type="text"
                                 id="identifiant"
                                 name="identifiant"
+                                value="<?= htmlspecialchars($identifiant) ?>"
                                 placeholder="Saisissez votre identifiant"
                                 required
                             >
@@ -142,7 +181,6 @@
                         <div class="champ-connexion">
                             <div class="label-mot-de-passe">
                                 <label for="mot_de_passe">Mot de passe</label>
-                                <a href="#">Mot de passe oublié ?</a>
                             </div>
 
                             <input
@@ -152,13 +190,6 @@
                                 placeholder="Saisissez votre mot de passe"
                                 required
                             >
-                        </div>
-
-                        <div class="options-connexion">
-                            <label class="souvenir-compte">
-                                <input type="checkbox" name="se_souvenir">
-                                <span>Se souvenir de moi</span>
-                            </label>
                         </div>
 
                         <button type="submit" class="btn btn-principal bouton-connexion">
