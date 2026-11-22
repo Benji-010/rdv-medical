@@ -23,7 +23,12 @@
                 <ul>
                     <?php if ($estAdmin): ?>
                         <li><a href="tableau-de-bord.php">Tableau de bord</a></li>
-                        <li><a href="index.php">Voir le site</a></li>
+                        <li><a href="gestion-medecins.php">Médecins</a></li>
+                        <li><a href="gestion-salles.php">Salles</a></li>
+                        <li><a href="gestion-disponibilites.php">Disponibilités</a></li>
+                        <li><a href="patients.php">Patients</a></li>
+                        <li><a href="statistiques.php">Statistiques</a></li>
+                        <li><a href="liste-rendez-vous.php">Rendez-vous</a></li>
                         <li><a href="logout.php">Déconnexion</a></li>
                     <?php else: ?>
                         <li><a href="index.php">Accueil</a></li>

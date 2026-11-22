@@ -15,9 +15,8 @@ function lienMenu(string $cle, string $fichier, string $texte, string $pageActiv
             <?= lienMenu('gestion-medecins', 'gestion-medecins.php', 'Médecins', $pageActive) ?>
             <?= lienMenu('gestion-salles', 'gestion-salles.php', 'Salles', $pageActive) ?>
             <?= lienMenu('gestion-disponibilites', 'gestion-disponibilites.php', 'Disponibilités', $pageActive) ?>
-            <?= lienMenu('rendez-vous', 'liste-rendez-vous.php', 'Rendez-vous', $pageActive) ?>
             <?= lienMenu('statistiques', 'statistiques.php', 'Statistiques', $pageActive) ?>
-            <li class="menu-action"><a href="index.php">Voir le site</a></li>
+            <?= lienMenu('rendez-vous', 'liste-rendez-vous.php', 'Rendez-vous', 'class="lien-deconnexion"', $pageActive) ?>
             <li><a href="logout.php">Déconnexion</a></li>
         <?php else: ?>
             <!-- Menu du visiteur -->
