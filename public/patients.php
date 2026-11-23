@@ -1,8 +1,70 @@
 <?php
 require_once __DIR__ . '/../src/Auth.php';
+require_once __DIR__ . '/../src/PatientService.php';
 
-// Si personne n'est connecté, renvoie vers login.php
-Auth::exigerConnexion();
+Auth::exigerConnexion();   // renvoie vers login.php si personne n'est connecté (démarre aussi la session)
+
+// Affiche du texte en toute sécurité : neutralise le HTML qu'un utilisateur aurait saisi.
+function e($valeur): string
+{
+    return htmlspecialchars((string) $valeur, ENT_QUOTES, 'UTF-8');
+}
+
+$erreurs = [];
+$donnees = [];                               // valeurs affichées dans le formulaire
+$idModif = (int) ($_GET['modifier'] ?? 0);   // > 0 quand on modifie un patient existant
+
+// Message de succès mémorisé juste avant la redirection (affiché une seule fois).
+$succes = $_SESSION['succes'] ?? '';
+unset($_SESSION['succes']);
+
+// ---- Traitement du formulaire (ajout ou modification) ----
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $donnees = $_POST;
+    $idModif = (int) ($_POST['id_patient'] ?? 0);
+
+    // Validation côté serveur : la liste est vide si tout est correct.
+    $erreurs = PatientService::valider($donnees);
+
+    if (!$erreurs) {
+        try {
+            if ($idModif > 0) {
+                PatientService::modifier($idModif, $donnees);
+                $_SESSION['succes'] = 'Le patient a été modifié.';
+            } else {
+                PatientService::ajouter($donnees);
+                $_SESSION['succes'] = 'Le patient a été enregistré.';
+            }
+            // Redirection : évite de renvoyer le formulaire si on actualise la page.
+            header('Location: patients.php');
+            exit;
+        } catch (RuntimeException $ex) {
+            // Par exemple : numéro de téléphone déjà utilisé.
+            $erreurs[] = $ex->getMessage();
+        }
+    }
+} elseif ($idModif > 0) {
+    // Clic sur « Dossier » : on remplit le formulaire avec le patient choisi.
+    $donnees = PatientService::trouver($idModif) ?? [];
+    if (!$donnees) {
+        $idModif = 0; // patient introuvable : on repasse en mode ajout
+    }
+}
+
+// ---- Liste, recherche et pagination ----
+$recherche = trim($_GET['recherche'] ?? '');
+$parPage   = 10;
+$total     = PatientService::compter($recherche);
+$nbPages   = max(1, (int) ceil($total / $parPage));
+$page      = min(max(1, (int) ($_GET['page'] ?? 1)), $nbPages);
+$patients  = PatientService::lister($recherche, $parPage, ($page - 1) * $parPage);
+
+$totalPatients   = PatientService::compter();
+$avecRendezVous  = PatientService::compterAvecRendezVous();
+$debut           = $total > 0 ? ($page - 1) * $parPage + 1 : 0;
+$fin             = min($total, $page * $parPage);
+
+$couleursAvatar = ['', 'avatar-bleu', 'avatar-orange', 'avatar-violet', 'avatar-rose', 'avatar-vert'];
 
 $titrePage  = 'Patients';
 $pageActive = 'patients';
@@ -20,9 +82,9 @@ require __DIR__ . '/../src/header.php';
                 <p>Consultez et gérez les informations des patients de la clinique.</p>
             </div>
 
-            <button type="button" class="btn btn-principal">
+            <a href="#formulaire-patient" class="btn btn-principal">
                 + Ajouter un patient
-            </button>
+            </a>
         </section>
 
 
@@ -31,15 +93,7 @@ require __DIR__ . '/../src/header.php';
                 <span class="resume-patient-icone">♙</span>
                 <div>
                     <p>Total des patients</p>
-                    <h2>128</h2>
-                </div>
-            </article>
-
-            <article class="resume-patient">
-                <span class="resume-patient-icone resume-bleu">✚</span>
-                <div>
-                    <p>Nouveaux patients</p>
-                    <h2>12</h2>
+                    <h2><?= $totalPatients ?></h2>
                 </div>
             </article>
 
@@ -47,9 +101,90 @@ require __DIR__ . '/../src/header.php';
                 <span class="resume-patient-icone resume-vert">▣</span>
                 <div>
                     <p>Patients avec rendez-vous</p>
-                    <h2>36</h2>
+                    <h2><?= $avecRendezVous ?></h2>
                 </div>
             </article>
+        </section>
+
+
+        <!-- Formulaire : ajout ou modification -->
+        <section class="panneau" id="formulaire-patient" aria-labelledby="titre-formulaire" style="margin-block: 1.5rem 2.5rem;">
+            <h2 id="titre-formulaire"><?= $idModif > 0 ? 'Modifier le patient' : 'Nouveau patient' ?></h2>
+
+            <?php if ($succes !== ''): ?>
+                <div class="alerte alerte-succes" role="status"><?= e($succes) ?></div>
+            <?php endif; ?>
+
+            <?php if ($erreurs): ?>
+                <div class="alerte alerte-erreur" role="alert">
+                    <ul>
+                        <?php foreach ($erreurs as $erreur): ?>
+                            <li><?= e($erreur) ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            <?php endif; ?>
+
+            <form class="formulaire" action="patients.php" method="post">
+                <?php if ($idModif > 0): ?>
+                    <input type="hidden" name="id_patient" value="<?= $idModif ?>">
+                <?php endif; ?>
+
+                <div class="formulaire-grille">
+                    <div class="champ">
+                        <label for="patient_nom">Nom *</label>
+                        <input type="text" id="patient_nom" name="patient_nom" maxlength="100" required
+                               value="<?= e($donnees['patient_nom'] ?? '') ?>">
+                    </div>
+                    <div class="champ">
+                        <label for="patient_postnom">Postnom *</label>
+                        <input type="text" id="patient_postnom" name="patient_postnom" maxlength="100" required
+                               value="<?= e($donnees['patient_postnom'] ?? '') ?>">
+                    </div>
+                    <div class="champ">
+                        <label for="patient_prenom">Prénom *</label>
+                        <input type="text" id="patient_prenom" name="patient_prenom" maxlength="100" required
+                               value="<?= e($donnees['patient_prenom'] ?? '') ?>">
+                    </div>
+                    <div class="champ">
+                        <label for="patient_sexe">Sexe *</label>
+                        <select id="patient_sexe" name="patient_sexe" required>
+                            <option value="">Choisir</option>
+                            <option value="M" <?= ($donnees['patient_sexe'] ?? '') === 'M' ? 'selected' : '' ?>>Masculin</option>
+                            <option value="F" <?= ($donnees['patient_sexe'] ?? '') === 'F' ? 'selected' : '' ?>>Féminin</option>
+                        </select>
+                    </div>
+                    <div class="champ">
+                        <label for="patient_telephone">Téléphone *</label>
+                        <input type="tel" id="patient_telephone" name="patient_telephone" maxlength="20" required
+                               placeholder="+243 ..." value="<?= e($donnees['patient_telephone'] ?? '') ?>">
+                    </div>
+                    <div class="champ">
+                        <label for="patient_province">Province</label>
+                        <input type="text" id="patient_province" name="patient_province" maxlength="100"
+                               value="<?= e($donnees['patient_province'] ?? '') ?>">
+                    </div>
+                    <div class="champ">
+                        <label for="patient_ville">Ville</label>
+                        <input type="text" id="patient_ville" name="patient_ville" maxlength="100"
+                               value="<?= e($donnees['patient_ville'] ?? '') ?>">
+                    </div>
+                    <div class="champ">
+                        <label for="patient_commune">Commune</label>
+                        <input type="text" id="patient_commune" name="patient_commune" maxlength="100"
+                               value="<?= e($donnees['patient_commune'] ?? '') ?>">
+                    </div>
+                </div>
+
+                <div class="formulaire-actions">
+                    <button type="submit" class="btn btn-principal">
+                        <?= $idModif > 0 ? 'Enregistrer les modifications' : 'Enregistrer le patient' ?>
+                    </button>
+                    <?php if ($idModif > 0): ?>
+                        <a href="patients.php" class="btn btn-secondaire">Annuler</a>
+                    <?php endif; ?>
+                </div>
+            </form>
         </section>
 
 
@@ -62,18 +197,14 @@ require __DIR__ . '/../src/header.php';
                 </div>
             </div>
 
-            <div class="outils-patients">
+            <form class="outils-patients" action="patients.php" method="get">
                 <div class="recherche-patient">
                     <span>⌕</span>
-                    <input type="search" placeholder="Rechercher un patient...">
+                    <input type="search" name="recherche" placeholder="Rechercher par nom ou téléphone..."
+                           aria-label="Rechercher un patient" value="<?= e($recherche) ?>">
                 </div>
-
-                <select aria-label="Filtrer les patients">
-                    <option value="">Tous les patients</option>
-                    <option value="recent">Récemment inscrits</option>
-                    <option value="anciens">Anciens patients</option>
-                </select>
-            </div>
+                <button type="submit" class="btn btn-secondaire">Rechercher</button>
+            </form>
 
 
             <div class="panneau tableau-patients">
@@ -83,116 +214,55 @@ require __DIR__ . '/../src/header.php';
                             <tr>
                                 <th>Patient</th>
                                 <th>Identifiant</th>
+                                <th>Sexe</th>
                                 <th>Téléphone</th>
-                                <th>E-mail</th>
-                                <th>Date d'inscription</th>
-                                <th>Statut</th>
+                                <th>Ville</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
 
                         <tbody>
-                            <tr>
-                                <td>
-                                    <div class="patient-identite">
-                                        <span class="avatar-patient">MK</span>
-                                        <strong>Marie Kanku</strong>
-                                    </div>
-                                </td>
-                                <td>PAT-001</td>
-                                <td>+243 810 000 001</td>
-                                <td>marie.k@email.com</td>
-                                <td>05/11/2026</td>
-                                <td><span class="statut-patient actif">Actif</span></td>
-                                <td><a href="#" class="action-patient">Détails</a></td>
-                            </tr>
+                            <?php if (!$patients): ?>
+                                <tr><td colspan="6">Aucun patient trouvé.</td></tr>
+                            <?php endif; ?>
 
-                            <tr>
-                                <td>
-                                    <div class="patient-identite">
-                                        <span class="avatar-patient avatar-bleu">PL</span>
-                                        <strong>Paul Lukusa</strong>
-                                    </div>
-                                </td>
-                                <td>PAT-002</td>
-                                <td>+243 820 000 002</td>
-                                <td>paul.l@email.com</td>
-                                <td>06/11/2026</td>
-                                <td><span class="statut-patient actif">Actif</span></td>
-                                <td><a href="#" class="action-patient">Détails</a></td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <div class="patient-identite">
-                                        <span class="avatar-patient avatar-orange">AN</span>
-                                        <strong>Alice Nsimba</strong>
-                                    </div>
-                                </td>
-                                <td>PAT-003</td>
-                                <td>+243 830 000 003</td>
-                                <td>alice.n@email.com</td>
-                                <td>07/11/2026</td>
-                                <td><span class="statut-patient actif">Actif</span></td>
-                                <td><a href="#" class="action-patient">Détails</a></td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <div class="patient-identite">
-                                        <span class="avatar-patient avatar-violet">JM</span>
-                                        <strong>Jean Mbuyi</strong>
-                                    </div>
-                                </td>
-                                <td>PAT-004</td>
-                                <td>+243 840 000 004</td>
-                                <td>jean.m@email.com</td>
-                                <td>08/11/2026</td>
-                                <td><span class="statut-patient inactif">Inactif</span></td>
-                                <td><a href="#" class="action-patient">Détails</a></td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <div class="patient-identite">
-                                        <span class="avatar-patient avatar-rose">CN</span>
-                                        <strong>Carine Nlandu</strong>
-                                    </div>
-                                </td>
-                                <td>PAT-005</td>
-                                <td>+243 850 000 005</td>
-                                <td>carine.n@email.com</td>
-                                <td>09/11/2026</td>
-                                <td><span class="statut-patient actif">Actif</span></td>
-                                <td><a href="#" class="action-patient">Détails</a></td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <div class="patient-identite">
-                                        <span class="avatar-patient avatar-vert">BK</span>
-                                        <strong>Bernard Kabeya</strong>
-                                    </div>
-                                </td>
-                                <td>PAT-006</td>
-                                <td>+243 860 000 006</td>
-                                <td>bernard.k@email.com</td>
-                                <td>10/11/2026</td>
-                                <td><span class="statut-patient actif">Actif</span></td>
-                                <td><a href="#" class="action-patient">Détails</a></td>
-                            </tr>
+                            <?php foreach ($patients as $i => $p): ?>
+                                <?php
+                                $initiales = mb_strtoupper(mb_substr($p['patient_prenom'], 0, 1) . mb_substr($p['patient_nom'], 0, 1));
+                                $couleur   = $couleursAvatar[$i % count($couleursAvatar)];
+                                ?>
+                                <tr>
+                                    <td>
+                                        <div class="patient-identite">
+                                            <span class="avatar-patient <?= $couleur ?>"><?= e($initiales) ?></span>
+                                            <strong><?= e($p['patient_nom'] . ' ' . $p['patient_postnom'] . ' ' . $p['patient_prenom']) ?></strong>
+                                        </div>
+                                    </td>
+                                    <td>PAT-<?= str_pad($p['id_patient'], 3, '0', STR_PAD_LEFT) ?></td>
+                                    <td><?= e($p['patient_sexe']) ?></td>
+                                    <td><?= e($p['patient_telephone']) ?></td>
+                                    <td><?= e($p['patient_ville'] ?? '—') ?></td>
+                                    <td>
+                                        <a href="patients.php?modifier=<?= (int) $p['id_patient'] ?>#formulaire-patient" class="action-patient">Dossier</a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
 
                 <div class="pagination-patients">
-                    <span>Affichage de 1 à 6 sur 128 patients</span>
+                    <span>Affichage de <?= $debut ?> à <?= $fin ?> sur <?= $total ?> patients</span>
                     <div>
-                        <button type="button" disabled>Précédent</button>
-                        <button type="button" class="page-active">1</button>
-                        <button type="button">2</button>
-                        <button type="button">3</button>
-                        <button type="button">Suivant</button>
+                        <!-- display: contents : le formulaire n'ajoute pas de bloc, les boutons gardent leur style -->
+                        <form action="patients.php" method="get" style="display: contents;">
+                            <input type="hidden" name="recherche" value="<?= e($recherche) ?>">
+                            <button type="submit" name="page" value="<?= $page - 1 ?>" <?= $page <= 1 ? 'disabled' : '' ?>>Précédent</button>
+                            <?php for ($n = max(1, $page - 2); $n <= min($nbPages, $page + 2); $n++): ?>
+                                <button type="submit" name="page" value="<?= $n ?>" <?= $n === $page ? 'class="page-active"' : '' ?>><?= $n ?></button>
+                            <?php endfor; ?>
+                            <button type="submit" name="page" value="<?= $page + 1 ?>" <?= $page >= $nbPages ? 'disabled' : '' ?>>Suivant</button>
+                        </form>
                     </div>
                 </div>
             </div>
