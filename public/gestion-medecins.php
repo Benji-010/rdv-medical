@@ -1,8 +1,85 @@
 <?php
 require_once __DIR__ . '/../src/Auth.php';
+require_once __DIR__ . '/../src/MedecinService.php';
 
-// Si personne n'est connecté, renvoie vers login.php
 Auth::exigerConnexion();
+
+function e($valeur): string
+{
+    return htmlspecialchars((string) $valeur, ENT_QUOTES, 'UTF-8');
+}
+
+$erreurs = [];
+$donnees = [];                             
+$idModif = (int) ($_GET['modifier'] ?? 0);   
+
+// Messages mémorisés juste avant la redirection (affichés une seule fois).
+$succes = $_SESSION['succes'] ?? '';
+$erreurSuppression = $_SESSION['erreur'] ?? '';
+unset($_SESSION['succes'], $_SESSION['erreur']);
+
+// ---- Traitement des formulaires ----
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    // Cas 1 : clic sur « Supprimer »
+    if (($_POST['action'] ?? '') === 'supprimer') {
+        try {
+            MedecinService::supprimer((int) ($_POST['id_medecin'] ?? 0));
+            $_SESSION['succes'] = 'Le médecin a été supprimé.';
+        } catch (RuntimeException $ex) {
+            $_SESSION['erreur'] = $ex->getMessage();
+        }
+        header('Location: gestion-medecins.php');
+        exit;
+    }
+
+    // Cas 2 : ajout ou modification
+    $donnees = $_POST;
+    $idModif = (int) ($_POST['id_medecin'] ?? 0);
+    $fichier = $_FILES['medecin_photo'] ?? null;
+
+    // Validation côté serveur : la liste est vide si tout est correct.
+    $erreurs = MedecinService::valider($donnees, $fichier);
+
+    if (!$erreurs) {
+        try {
+            if ($idModif > 0) {
+                MedecinService::modifier($idModif, $donnees, $fichier);
+                $_SESSION['succes'] = 'Le médecin a été modifié.';
+            } else {
+                MedecinService::ajouter($donnees, $fichier);
+                $_SESSION['succes'] = 'Le médecin a été enregistré.';
+            }
+            // Redirection : évite de renvoyer le formulaire si on actualise la page.
+            header('Location: gestion-medecins.php');
+            exit;
+        } catch (RuntimeException $ex) {
+            $erreurs[] = $ex->getMessage();
+        }
+    }
+} elseif ($idModif > 0) {
+    // Clic sur « Modifier » : on remplit le formulaire avec le médecin choisi.
+    $donnees = MedecinService::trouver($idModif) ?? [];
+    if (!$donnees) {
+        $idModif = 0; // médecin introuvable : on repasse en mode ajout
+    }
+}
+
+// ---- Liste, recherche, filtre et pagination ----
+$recherche  = trim($_GET['recherche'] ?? '');
+$specialite = trim($_GET['specialite'] ?? '');
+$parPage    = 10;
+$total      = MedecinService::compter($recherche, $specialite);
+$nbPages    = max(1, (int) ceil($total / $parPage));
+$page       = min(max(1, (int) ($_GET['page'] ?? 1)), $nbPages);
+$medecins   = MedecinService::lister($recherche, $specialite, $parPage, ($page - 1) * $parPage);
+
+$specialites   = MedecinService::specialites();
+$totalMedecins = MedecinService::compter();
+$debut         = $total > 0 ? ($page - 1) * $parPage + 1 : 0;
+$fin           = min($total, $page * $parPage);
+
+$photoParDefaut = 'assets/img/medecins/defaut.jpeg';
 
 $titrePage  = 'Gestion des médecins';
 $pageActive = 'gestion-medecins';
@@ -19,9 +96,9 @@ require __DIR__ . '/../src/header.php';
       <p>Consultez et gérez les informations des médecins de la clinique.</p>
     </div>
 
-    <button class="btn btn-principal" type="button">
+    <a href="#formulaire-medecin" class="btn btn-principal">
       + Ajouter un médecin
-    </button>
+    </a>
   </section>
 
   <section class="resume-medecins">
@@ -29,15 +106,7 @@ require __DIR__ . '/../src/header.php';
       <span class="resume-icone">👨‍⚕️</span>
       <div>
         <p class="resume-label">Total des médecins</p>
-        <h2>04</h2>
-      </div>
-    </article>
-
-    <article class="resume-carte">
-      <span class="resume-icone">✓</span>
-      <div>
-        <p class="resume-label">Médecins actifs</p>
-        <h2>04</h2>
+        <h2><?= $totalMedecins ?></h2>
       </div>
     </article>
 
@@ -45,9 +114,84 @@ require __DIR__ . '/../src/header.php';
       <span class="resume-icone">＋</span>
       <div>
         <p class="resume-label">Spécialités représentées</p>
-        <h2>04</h2>
+        <h2><?= count($specialites) ?></h2>
       </div>
     </article>
+  </section>
+
+  <!-- Formulaire : ajout ou modification -->
+  <section class="panneau" id="formulaire-medecin" aria-labelledby="titre-formulaire" style="margin-bottom: 2rem;">
+    <h2 id="titre-formulaire"><?= $idModif > 0 ? 'Modifier le médecin' : 'Nouveau médecin' ?></h2>
+
+    <?php if ($succes !== ''): ?>
+      <div class="alerte alerte-succes" role="status"><?= e($succes) ?></div>
+    <?php endif; ?>
+
+    <?php if ($erreurSuppression !== ''): ?>
+      <div class="alerte alerte-erreur" role="alert"><?= e($erreurSuppression) ?></div>
+    <?php endif; ?>
+
+    <?php if ($erreurs): ?>
+      <div class="alerte alerte-erreur" role="alert">
+        <ul>
+          <?php foreach ($erreurs as $erreur): ?>
+            <li><?= e($erreur) ?></li>
+          <?php endforeach; ?>
+        </ul>
+      </div>
+    <?php endif; ?>
+
+    <!-- enctype="multipart/form-data" est OBLIGATOIRE pour envoyer un fichier -->
+    <form class="formulaire" action="gestion-medecins.php" method="post" enctype="multipart/form-data">
+      <?php if ($idModif > 0): ?>
+        <input type="hidden" name="id_medecin" value="<?= $idModif ?>">
+      <?php endif; ?>
+
+      <div class="formulaire-grille">
+        <div class="champ">
+          <label for="medecin_nom">Nom *</label>
+          <input type="text" id="medecin_nom" name="medecin_nom" maxlength="100" required
+                 value="<?= e($donnees['medecin_nom'] ?? '') ?>">
+        </div>
+        <div class="champ">
+          <label for="medecin_postnom">Postnom *</label>
+          <input type="text" id="medecin_postnom" name="medecin_postnom" maxlength="100" required
+                 value="<?= e($donnees['medecin_postnom'] ?? '') ?>">
+        </div>
+        <div class="champ">
+          <label for="medecin_prenom">Prénom *</label>
+          <input type="text" id="medecin_prenom" name="medecin_prenom" maxlength="100" required
+                 value="<?= e($donnees['medecin_prenom'] ?? '') ?>">
+        </div>
+        <div class="champ">
+          <label for="medecin_specialite">Spécialité *</label>
+          <!-- list="..." propose les spécialités déjà utilisées, mais on peut en saisir une nouvelle -->
+          <input type="text" id="medecin_specialite" name="medecin_specialite" maxlength="100" required
+                 list="liste-specialites" value="<?= e($donnees['medecin_specialite'] ?? '') ?>">
+          <datalist id="liste-specialites">
+            <?php foreach ($specialites as $s): ?>
+              <option value="<?= e($s) ?>">
+            <?php endforeach; ?>
+          </datalist>
+        </div>
+        <div class="champ">
+          <label for="medecin_photo">Photo (JPEG, PNG ou WebP, 2 Mo maximum)</label>
+          <input type="file" id="medecin_photo" name="medecin_photo" accept="image/jpeg,image/png,image/webp">
+          <?php if ($idModif > 0): ?>
+            <small>Laissez vide pour conserver la photo actuelle.</small>
+          <?php endif; ?>
+        </div>
+      </div>
+
+      <div class="formulaire-actions">
+        <button type="submit" class="btn btn-principal">
+          <?= $idModif > 0 ? 'Enregistrer les modifications' : 'Enregistrer le médecin' ?>
+        </button>
+        <?php if ($idModif > 0): ?>
+          <a href="gestion-medecins.php" class="btn btn-secondaire">Annuler</a>
+        <?php endif; ?>
+      </div>
+    </form>
   </section>
 
   <section class="panneau section-liste">
@@ -58,25 +202,21 @@ require __DIR__ . '/../src/header.php';
       </div>
     </div>
 
-    <div class="outils-liste">
+    <form class="outils-liste" action="gestion-medecins.php" method="get">
       <div class="recherche-medecin">
-        <input type="search" placeholder="Rechercher un médecin..." aria-label="Rechercher un médecin">
+        <input type="search" name="recherche" placeholder="Rechercher un médecin..."
+               aria-label="Rechercher un médecin" value="<?= e($recherche) ?>">
       </div>
 
-      <select aria-label="Filtrer par spécialité">
+      <select name="specialite" aria-label="Filtrer par spécialité">
         <option value="">Toutes les spécialités</option>
-        <option>Cardiologie</option>
-        <option>Pédiatrie</option>
-        <option>Médecine générale</option>
-        <option>Radiologie</option>
+        <?php foreach ($specialites as $s): ?>
+          <option value="<?= e($s) ?>" <?= $s === $specialite ? 'selected' : '' ?>><?= e($s) ?></option>
+        <?php endforeach; ?>
       </select>
 
-      <select aria-label="Filtrer par statut">
-        <option value="">Tous les statuts</option>
-        <option>Actif</option>
-        <option>Inactif</option>
-      </select>
-    </div>
+      <button type="submit" class="btn btn-secondaire">Filtrer</button>
+    </form>
 
     <div class="tableau-defilant">
       <table class="tableau">
@@ -84,110 +224,59 @@ require __DIR__ . '/../src/header.php';
           <tr>
             <th>Médecin</th>
             <th>Spécialité</th>
-            <th>Téléphone</th>
-            <th>Email</th>
-            <th>Statut</th>
             <th>Actions</th>
           </tr>
         </thead>
 
         <tbody>
-          <tr>
-            <td>
-              <div class="medecin-identite">
-              <img src="assets/img/medecin-1.jpeg" alt="Docteur Jean Kabeya">  
-                <strong>Dr Jean Kabeya</strong>
-              </div>
-            </td>
-            <td>Cardiologie</td>
-            <td>+243 810 000 001</td>
-            <td>jean.kabeya@clinique.cd</td>
-            <td><span class="badge badge-succes">Actif</span></td>
-            <td>
-              <div class="actions">
-                <button class="action-btn voir" type="button" aria-label="Voir Jean Kabeya">Voir</button>
-                <button class="action-btn modifier" type="button" aria-label="Modifier Jean Kabeya">Modifier</button>
-                <button class="action-btn supprimer" type="button" aria-label="Supprimer Jean Kabeya">Supprimer</button>
-              </div>
-            </td>
-          </tr>
+          <?php if (!$medecins): ?>
+            <tr><td colspan="3">Aucun médecin trouvé.</td></tr>
+          <?php endif; ?>
 
-          <tr>
-            <td>
-              <div class="medecin-identite">
-                <img src="assets/img/medecin-2.jpeg" alt="Dr Marie Ilunga">
-                <strong>Dr Marie Ilunga</strong>
-              </div>
-            </td>
-            <td>Pédiatrie</td>
-            <td>+243 810 000 002</td>
-            <td>marie.ilunga@clinique.cd</td>
-            <td><span class="badge badge-succes">Actif</span></td>
-            <td>
-              <div class="actions">
-                <button class="action-btn voir" type="button" aria-label="Voir Marie Ilunga">Voir</button>
-                <button class="action-btn modifier" type="button" aria-label="Modifier Marie Ilunga">Modifier</button>
-                <button class="action-btn supprimer" type="button" aria-label="Supprimer Marie Ilunga">Supprimer</button>
-              </div>
-            </td>
-          </tr>
+          <?php foreach ($medecins as $m): ?>
+            <?php $nomComplet = $m['medecin_prenom'] . ' ' . $m['medecin_nom'] . ' ' . $m['medecin_postnom']; ?>
+            <tr>
+              <td>
+                <div class="medecin-identite">
+                  <img src="<?= e($m['medecin_photo'] ?? $photoParDefaut) ?>" alt="Photo de <?= e($nomComplet) ?>">
+                  <strong>Dr <?= e($nomComplet) ?></strong>
+                </div>
+              </td>
+              <td><?= e($m['medecin_specialite']) ?></td>
+              <td>
+                <div class="actions">
+                  <a class="action-btn modifier" href="gestion-medecins.php?modifier=<?= (int) $m['id_medecin'] ?>#formulaire-medecin">Modifier</a>
 
-          <tr>
-            <td>
-              <div class="medecin-identite">
-                <img src="assets/img/medecin-3.jpeg" alt="Dr Patrick Mbuyi">
-                <strong>Dr Patrick Mbuyi</strong>
-              </div>
-            </td>
-            <td>Médecine générale</td>
-            <td>+243 810 000 003</td>
-            <td>patrick.mbuyi@clinique.cd</td>
-            <td><span class="badge badge-succes">Actif</span></td>
-            <td>
-              <div class="actions">
-                <button class="action-btn voir" type="button" aria-label="Voir Patrick Mbuyi">Voir</button>
-                <button class="action-btn modifier" type="button" aria-label="Modifier Patrick Mbuyi">Modifier</button>
-                <button class="action-btn supprimer" type="button" aria-label="Supprimer Patrick Mbuyi">Supprimer</button>
-              </div>
-            </td>
-          </tr>
-
-          <tr>
-            <td>
-              <div class="medecin-identite">
-                <img src="assets/img/medecin-4.jpeg" alt="Dr Sarah Nsimba">
-                <strong>Dr Sarah Nsimba</strong>
-              </div>
-            </td>
-            <td>Radiologie</td>
-            <td>+243 810 000 004</td>
-            <td>sarah.nsimba@clinique.cd</td>
-            <td><span class="badge badge-succes">Actif</span></td>
-            <td>
-              <div class="actions">
-                <button class="action-btn voir" type="button" aria-label="Voir Sarah Nsimba">Voir</button>
-                <button class="action-btn modifier" type="button" aria-label="Modifier Sarah Nsimba">Modifier</button>
-                <button class="action-btn supprimer" type="button" aria-label="Supprimer Sarah Nsimba">Supprimer</button>
-              </div>
-            </td>
-          </tr>
+                  <!-- La suppression passe par un formulaire POST, avec confirmation -->
+                  <form action="gestion-medecins.php" method="post" style="display: inline;"
+                        onsubmit="return confirm('Supprimer ce médecin ?');">
+                    <input type="hidden" name="action" value="supprimer">
+                    <input type="hidden" name="id_medecin" value="<?= (int) $m['id_medecin'] ?>">
+                    <button class="action-btn supprimer" type="submit" aria-label="Supprimer <?= e($nomComplet) ?>">Supprimer</button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+          <?php endforeach; ?>
         </tbody>
       </table>
     </div>
 
     <div class="pagination">
-      <span>Affichage de 1 à 4 médecins sur 4</span>
+      <span>Affichage de <?= $debut ?> à <?= $fin ?> médecins sur <?= $total ?></span>
       <div>
-        <button type="button" disabled>Précédent</button>
-        <button type="button" class="page-active">1</button>
-        <button type="button" disabled>Suivant</button>
+        <!-- display: contents : le formulaire n'ajoute pas de bloc, les boutons gardent leur style -->
+        <form action="gestion-medecins.php" method="get" style="display: contents;">
+          <input type="hidden" name="recherche" value="<?= e($recherche) ?>">
+          <input type="hidden" name="specialite" value="<?= e($specialite) ?>">
+          <button type="submit" name="page" value="<?= $page - 1 ?>" <?= $page <= 1 ? 'disabled' : '' ?>>Précédent</button>
+          <?php for ($n = max(1, $page - 2); $n <= min($nbPages, $page + 2); $n++): ?>
+            <button type="submit" name="page" value="<?= $n ?>" <?= $n === $page ? 'class="page-active"' : '' ?>><?= $n ?></button>
+          <?php endfor; ?>
+          <button type="submit" name="page" value="<?= $page + 1 ?>" <?= $page >= $nbPages ? 'disabled' : '' ?>>Suivant</button>
+        </form>
       </div>
     </div>
-  </section>
-
-  <section class="note-administration">
-    <span>ℹ️</span>
-    <p>Les informations affichées sont des données de démonstration. Les actions d'ajout, de modification et de suppression seront activées lors de la mise en place du backend.</p>
   </section>
 
 </main>
