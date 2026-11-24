@@ -1,4 +1,22 @@
 <?php
+require_once __DIR__ . '/../src/SalleService.php';
+
+function e($valeur): string
+{
+    return htmlspecialchars((string) $valeur, ENT_QUOTES, 'UTF-8');
+}
+
+$salles = SalleService::lister('', '', 1000);
+
+// Image de chaque carte, selon l'équipement (consultation par défaut)
+$images = [
+    'ECG'        => 'salle-ecg.jpeg',
+    'Echographe' => 'salle-echographie.jpeg',
+    'IRM'        => 'salle-irm.jpeg',
+    'Radiologie' => 'salle-radiologie.jpeg',
+    'Scanner'    => 'salle-scanner.jpeg',
+];
+
 $titrePage  = 'Nos salles';
 $pageActive = 'salles';
 $cssPage    = 'salles.css';
@@ -37,163 +55,29 @@ require __DIR__ . '/../src/header.php';
 
       <div class="grille-salles">
 
-        <!-- SALLE 1 -->
-        <article class="carte-salle">
+        <?php if (!$salles): ?>
+          <p class="texte-doux">Aucune salle n'est enregistrée pour le moment.</p>
+        <?php endif; ?>
 
-          <img src="assets/img/salle-consultation.jpeg"
-               alt="Salle de consultation médicale"
-               class="photo-salle">
+        <?php foreach ($salles as $s): ?>
+          <article class="carte-salle">
 
-          <div class="infos-salle">
+            <img src="assets/img/<?= e($images[$s['salle_equipement'] ?? ''] ?? 'salle-consultation.jpeg') ?>"
+                 alt="<?= e($s['salle_nom']) ?>"
+                 class="photo-salle">
 
-            <span class="type-salle">Consultation</span>
+            <div class="infos-salle">
 
-            <h3>Salle de consultation générale</h3>
+              <h3><?= e($s['salle_nom']) ?></h3>
 
-            <p>
-              Un espace dédié aux consultations médicales,
-              aux examens cliniques et au suivi des patients.
-            </p>
+              <div class="equipements">
+                <strong>Équipement :</strong>
+                <span><?= e($s['salle_equipement'] ?? 'Aucun équipement spécifique') ?></span>
+              </div>
 
-            <div class="equipements">
-              <strong>Équipements :</strong>
-              <span>Table d'examen, tensiomètre, stéthoscope.</span>
             </div>
-
-          </div>
-        </article>
-
-        <!-- SALLE 2 -->
-        <article class="carte-salle">
-
-          <img src="assets/img/salle-radiologie.jpeg"
-               alt="Salle de radiologie"
-               class="photo-salle">
-
-          <div class="infos-salle">
-
-            <span class="type-salle">Imagerie médicale</span>
-
-            <h3>Salle de radiologie</h3>
-
-            <p>
-              Un espace équipé pour réaliser des examens
-              radiologiques permettant d'observer différentes
-              parties du corps.
-            </p>
-
-            <div class="equipements">
-              <strong>Équipements :</strong>
-              <span>Appareil de radiographie, écran de visualisation.</span>
-            </div>
-
-          </div>
-        </article>
-
-        <!-- SALLE 3 -->
-        <article class="carte-salle">
-
-          <img src="assets/img/salle-echographie.jpeg"
-               alt="Salle d'échographie"
-               class="photo-salle">
-
-          <div class="infos-salle">
-
-            <span class="type-salle">Imagerie médicale</span>
-
-            <h3>Salle d'échographie</h3>
-
-            <p>
-              Un environnement adapté aux examens échographiques
-              et à l'observation des organes internes.
-            </p>
-
-            <div class="equipements">
-              <strong>Équipements :</strong>
-              <span>Échographe, écran médical, table d'examen.</span>
-            </div>
-
-          </div>
-        </article>
-
-        <!-- SALLE 4 -->
-        <article class="carte-salle">
-
-          <img src="assets/img/salle-ecg.jpeg"
-               alt="Salle d'électrocardiogramme"
-               class="photo-salle">
-
-          <div class="infos-salle">
-
-            <span class="type-salle">Cardiologie</span>
-
-            <h3>Salle d'ECG</h3>
-
-            <p>
-              Un espace consacré à l'enregistrement de l'activité
-              électrique du cœur pour les examens cardiaques.
-            </p>
-
-            <div class="equipements">
-              <strong>Équipements :</strong>
-              <span>Électrocardiographe, électrodes, moniteur.</span>
-            </div>
-
-          </div>
-        </article>
-
-        <!-- SALLE 5 -->
-        <article class="carte-salle">
-
-          <img src="assets/img/salle-scanner.jpeg"
-               alt="Salle de scanner médical"
-               class="photo-salle">
-
-          <div class="infos-salle">
-
-            <span class="type-salle">Imagerie médicale</span>
-
-            <h3>Salle de scanner</h3>
-
-            <p>
-              Un espace destiné aux examens par tomodensitométrie
-              pour obtenir des images détaillées du corps.
-            </p>
-
-            <div class="equipements">
-              <strong>Équipements :</strong>
-              <span>Scanner médical, table motorisée, console.</span>
-            </div>
-
-          </div>
-        </article>
-
-        <!-- SALLE 6 -->
-        <article class="carte-salle">
-
-          <img src="assets/img/salle-irm.jpeg"
-               alt="Salle d'imagerie par résonance magnétique"
-               class="photo-salle">
-
-          <div class="infos-salle">
-
-            <span class="type-salle">Imagerie médicale</span>
-
-            <h3>Salle d'IRM</h3>
-
-            <p>
-              Un espace spécialisé dans les examens par
-              résonance magnétique pour obtenir des images
-              précises des structures internes.
-            </p>
-
-            <div class="equipements">
-              <strong>Équipements :</strong>
-              <span>Appareil IRM, console de commande, moniteur.</span>
-            </div>
-
-          </div>
-        </article>
+          </article>
+        <?php endforeach; ?>
 
       </div>
     </section>
