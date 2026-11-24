@@ -1,4 +1,14 @@
 <?php
+require_once __DIR__ . '/../src/MedecinService.php';
+
+function e($valeur): string
+{
+    return htmlspecialchars((string) $valeur, ENT_QUOTES, 'UTF-8');
+}
+
+$medecins       = MedecinService::lister('', '', 1000);
+$photoParDefaut = 'assets/img/medecins/defaut.jpeg';
+
 $titrePage  = 'Nos médecins';
 $pageActive = 'medecins';
 $cssPage    = 'medecins.css';
@@ -38,93 +48,25 @@ require __DIR__ . '/../src/header.php';
 
       <div class="grille-medecins">
 
-        <!-- MÉDECIN 1 -->
-        <article class="carte-medecin">
+        <?php if (!$medecins): ?>
+          <p class="texte-doux">Aucun médecin n'est enregistré pour le moment.</p>
+        <?php endif; ?>
 
-          <img src="assets/img/medecin-1.jpeg"
-               alt="Portrait du docteur Jean Kabeya"
-               class="photo-medecin">
+        <?php foreach ($medecins as $m): ?>
+          <?php $nomComplet = $m['medecin_prenom'] . ' ' . $m['medecin_nom'] . ' ' . $m['medecin_postnom']; ?>
+          <article class="carte-medecin">
 
-          <div class="infos-medecin">
+            <img src="<?= e($m['medecin_photo'] ?? $photoParDefaut) ?>"
+                 alt="Portrait du docteur <?= e($nomComplet) ?>"
+                 class="photo-medecin">
 
-            <span class="specialite">Cardiologie</span>
+            <div class="infos-medecin">
+              <span class="specialite"><?= e($m['medecin_specialite']) ?></span>
+              <h3>Dr <?= e($nomComplet) ?></h3>
+            </div>
 
-            <h3>Dr Jean Kabeya</h3>
-
-            <p>
-              Spécialiste des maladies cardiovasculaires,
-              il assure le suivi et la prévention des
-              maladies du cœur.
-            </p>
-
-          </div>
-        </article>
-
-        <!-- MÉDECIN 2 -->
-        <article class="carte-medecin">
-
-          <img src="assets/img/medecin-2.jpeg"
-               alt="Portrait de la docteure Marie Ilunga"
-               class="photo-medecin">
-
-          <div class="infos-medecin">
-
-            <span class="specialite">Pédiatrie</span>
-
-            <h3>Dr Marie Ilunga</h3>
-
-            <p>
-              Spécialisée dans la santé des enfants,
-              elle accompagne les familles dans le suivi
-              médical et le développement des petits.
-            </p>
-
-          </div>
-        </article>
-
-        <!-- MÉDECIN 3 -->
-        <article class="carte-medecin">
-
-          <img src="assets/img/medecin-3.jpeg"
-               alt="Portrait du docteur Patrick Mbuyi"
-               class="photo-medecin">
-
-          <div class="infos-medecin">
-
-            <span class="specialite">Médecine générale</span>
-
-            <h3>Dr Patrick Mbuyi</h3>
-
-            <p>
-              Il assure les consultations générales,
-              les diagnostics et le suivi médical
-              des patients.
-            </p>
-
-          </div>
-        </article>
-
-        <!-- MÉDECIN 4 -->
-        <article class="carte-medecin">
-
-          <img src="assets/img/medecin-4.jpeg"
-               alt="Portrait de la docteure Sarah Nsimba"
-               class="photo-medecin">
-
-          <div class="infos-medecin">
-
-            <span class="specialite">Radiologie</span>
-
-            <h3>Dr Sarah Nsimba</h3>
-
-            <p>
-              Spécialisée en imagerie médicale,
-              elle réalise et interprète les examens
-              radiologiques.
-            </p>
-
-          </div>
-        </article>
+          </article>
+        <?php endforeach; ?>
 
       </div>
     </section>
