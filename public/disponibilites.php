@@ -1,4 +1,30 @@
 <?php
+require_once __DIR__ . '/../src/MedecinService.php';
+require_once __DIR__ . '/../src/DisponibiliteService.php';
+
+function e($valeur): string
+{
+    return htmlspecialchars((string) $valeur, ENT_QUOTES, 'UTF-8');
+}
+
+$aujourdhui = date('Y-m-d');
+$inactifs   = ['Inactif', 'Fermée'];
+
+// Garde les horaires actifs et encore valables
+$valables = fn(array $lignes) => array_values(array_filter(
+    $lignes,
+    fn($l) => !in_array($l['statut'], $inactifs, true) && $l['valide_au'] >= $aujourdhui
+));
+
+$specialites = [];
+foreach (MedecinService::lister('', '', 1000) as $m) {
+    $specialites[$m['id_medecin']] = $m['medecin_specialite'];
+}
+
+$horairesMedecins = $valables(DisponibiliteService::horaires('medecin'));
+$horairesSalles   = $valables(DisponibiliteService::horaires('salle'));
+$hm               = fn(string $heure) => substr($heure, 0, 5);
+
 $titrePage  = 'Disponibilités';
 $pageActive = 'disponibilites';
 $cssPage    = 'disponibilites.css';
@@ -49,7 +75,7 @@ require __DIR__ . '/../src/header.php';
 
     </section>
 
-    <!-- TABLEAU DES DISPONIBILITES -->
+    <!-- HORAIRES DES MÉDECINS -->
     <section class="conteneur section-disponibilites">
 
       <div class="section-titre">
@@ -68,69 +94,25 @@ require __DIR__ . '/../src/header.php';
             <tr>
               <th scope="col">Médecin</th>
               <th scope="col">Spécialité</th>
-              <th scope="col">Jours de consultation</th>
+              <th scope="col">Jour de consultation</th>
               <th scope="col">Horaires</th>
-              <th scope="col">Statut</th>
             </tr>
           </thead>
 
           <tbody>
 
-            <tr>
-              <td>
-                <strong>Dr Jean Kabeya</strong>
-              </td>
-              <td>Cardiologie</td>
-              <td>Lundi, Mercredi, Vendredi</td>
-              <td>08:00 - 14:00</td>
-              <td>
-                <span class="statut-disponible">
-                  Disponible
-                </span>
-              </td>
-            </tr>
+            <?php if (!$horairesMedecins): ?>
+              <tr><td colspan="4">Aucun horaire n'est enregistré pour le moment.</td></tr>
+            <?php endif; ?>
 
-            <tr>
-              <td>
-                <strong>Dr Marie Ilunga</strong>
-              </td>
-              <td>Pédiatrie</td>
-              <td>Mardi, Jeudi, Samedi</td>
-              <td>08:00 - 12:00</td>
-              <td>
-                <span class="statut-disponible">
-                  Disponible
-                </span>
-              </td>
-            </tr>
-
-            <tr>
-              <td>
-                <strong>Dr Patrick Mbuyi</strong>
-              </td>
-              <td>Médecine générale</td>
-              <td>Lundi au Vendredi</td>
-              <td>09:00 - 17:00</td>
-              <td>
-                <span class="statut-disponible">
-                  Disponible
-                </span>
-              </td>
-            </tr>
-
-            <tr>
-              <td>
-                <strong>Dr Sarah Nsimba</strong>
-              </td>
-              <td>Radiologie</td>
-              <td>Mardi, Mercredi, Vendredi</td>
-              <td>08:00 - 15:00</td>
-              <td>
-                <span class="statut-disponible">
-                  Disponible
-                </span>
-              </td>
-            </tr>
+            <?php foreach ($horairesMedecins as $h): ?>
+              <tr>
+                <td><strong>Dr <?= e($h['nom']) ?></strong></td>
+                <td><?= e($specialites[$h['id_cible']] ?? '') ?></td>
+                <td><?= e($h['jour']) ?></td>
+                <td><?= $hm($h['heure_debut']) ?> - <?= $hm($h['heure_fin']) ?></td>
+              </tr>
+            <?php endforeach; ?>
 
           </tbody>
 
@@ -148,6 +130,51 @@ require __DIR__ . '/../src/header.php';
         Veuillez effectuer une demande de rendez-vous pour
         confirmer la disponibilité du médecin.
       </p>
+
+    </section>
+
+    <!-- HORAIRES DES SALLES -->
+    <section class="conteneur section-disponibilites">
+
+      <div class="section-titre">
+        <h2>Ouverture des salles</h2>
+
+        <p class="texte-doux">
+          Les salles où se déroulent les consultations et les examens.
+        </p>
+      </div>
+
+      <div class="tableau-defilant">
+
+        <table class="tableau-disponibilites">
+
+          <thead>
+            <tr>
+              <th scope="col">Salle</th>
+              <th scope="col">Jour d'ouverture</th>
+              <th scope="col">Horaires</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <?php if (!$horairesSalles): ?>
+              <tr><td colspan="3">Aucun horaire n'est enregistré pour le moment.</td></tr>
+            <?php endif; ?>
+
+            <?php foreach ($horairesSalles as $h): ?>
+              <tr>
+                <td><strong><?= e($h['nom']) ?></strong></td>
+                <td><?= e($h['jour']) ?></td>
+                <td><?= $hm($h['heure_debut']) ?> - <?= $hm($h['heure_fin']) ?></td>
+              </tr>
+            <?php endforeach; ?>
+
+          </tbody>
+
+        </table>
+
+      </div>
 
     </section>
 
