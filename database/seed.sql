@@ -1,3 +1,6 @@
+SET
+    NAMES utf8mb4;
+
 USE clinique_rdv;
 
 -- Durées de consultation autorisées

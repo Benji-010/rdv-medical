@@ -1,3 +1,6 @@
+SET
+    NAMES utf8mb4;
+
 -- Création de la Base des Données
 DROP DATABASE IF EXISTS clinique_rdv;
 
